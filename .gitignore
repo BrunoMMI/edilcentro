@@ -9,8 +9,7 @@ node_modules/
 .astro/
 
 # environment variables
-.env
-.env.production
+.env*
 
 # macOS
 .DS_Store
