@@ -1,0 +1,100 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LegalLayout from '@components/legal/LegalLayout.astro';
+import { mainLocation, companyLegalName } from '@data/site';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Privacy Policy', url: '/privacy-policy/' },
+];
+
+const LAST_UPDATED = '16 settembre 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Informativa sul trattamento dei dati personali del sito di Edil Centro Srl."
+  path="/privacy-policy/"
+  breadcrumbs={breadcrumbs}
+>
+  <LegalLayout title="Privacy Policy" updated={LAST_UPDATED}>
+    <p class="legal-note">
+      Nota: alcuni dati societari (numero di iscrizione al Registro delle Imprese / P.IVA) non
+      risultavano pubblicati sul sito precedente e non sono stati riportati per non rischiare di
+      indicare informazioni non corrette. Il titolare è invitato a integrarli prima della
+      pubblicazione definitiva del sito.
+    </p>
+
+    <h2>Titolare del trattamento</h2>
+    <p>
+      Titolare del trattamento dei dati è {companyLegalName}, con sede operativa in {mainLocation.street},{' '}
+      {mainLocation.cap} {mainLocation.city} ({mainLocation.province}), contattabile all'indirizzo
+      email <a href={mainLocation.emailHref}>{mainLocation.email}</a> o al numero{' '}
+      <a href={mainLocation.phoneHref}>{mainLocation.phone}</a>.
+    </p>
+
+    <h2>Dati trattati tramite il sito</h2>
+    <p>
+      Questo sito è realizzato come sito statico e non integra moduli di raccolta dati che
+      inviano automaticamente informazioni a un server. I pulsanti presenti nelle pagine (ad
+      esempio "Chiama", "Scrivi una email", "Indicazioni stradali") aprono rispettivamente l'app
+      telefono, l'app di posta elettronica o Google Maps del dispositivo dell'utente: eventuali
+      dati personali forniti in queste sedi (ad esempio il contenuto di un'email inviata a{' '}
+      {mainLocation.email}) sono trattati direttamente da {companyLegalName} secondo le finalità
+      comunicate al momento dell'invio, in qualità di titolare autonomo del trattamento.
+    </p>
+
+    <h2>Cookie</h2>
+    <p>
+      Il sito utilizza esclusivamente cookie tecnici necessari al funzionamento (ad esempio per
+      ricordare la preferenza espressa nel banner cookie). Non sono attualmente utilizzati cookie
+      di analisi statistica o di profilazione/marketing. Per maggiori dettagli consulta la{' '}
+      <a href="/cookie-policy/">Cookie Policy</a>.
+    </p>
+
+    <h2>Servizi di terze parti</h2>
+    <p>
+      Nella pagina Contatti, solo su azione esplicita dell'utente (clic sul pulsante "Visualizza
+      la mappa"), può essere caricata una mappa incorporata fornita da Google Maps. Il
+      caricamento non avviene automaticamente al caricamento della pagina. Google LLC opera in
+      qualità di titolare autonomo del trattamento per i dati raccolti tramite il proprio
+      servizio: per maggiori informazioni si rimanda all'informativa privacy di Google.
+    </p>
+    <p>
+      Il sito carica inoltre i font Google Fonts (Fraunces, Inter) dai server di Google per la
+      visualizzazione della tipografia. Il caricamento dei font può comportare la connessione ai
+      server di Google Fonts secondo l'informativa privacy del servizio.
+    </p>
+
+    <h2>Base giuridica e finalità</h2>
+    <p>
+      I dati eventualmente forniti volontariamente dall'utente tramite email o telefono sono
+      trattati sulla base del legittimo interesse a rispondere a richieste di informazioni
+      commerciali o preventivi, oppure sulla base dell'esecuzione di misure precontrattuali
+      richieste dall'interessato (art. 6, par. 1, lett. b ed f, GDPR).
+    </p>
+
+    <h2>Conservazione dei dati</h2>
+    <p>
+      I dati forniti tramite email o telefono sono conservati per il tempo necessario a
+      rispondere alla richiesta e, in caso di rapporto commerciale, per il tempo previsto dagli
+      obblighi di legge (civilistici e fiscali).
+    </p>
+
+    <h2>Diritti dell'interessato</h2>
+    <p>
+      Ai sensi degli articoli 15-22 del Regolamento (UE) 2016/679 (GDPR), l'utente può richiedere
+      in qualsiasi momento l'accesso ai propri dati, la rettifica, la cancellazione, la
+      limitazione o l'opposizione al trattamento, nonché la portabilità dei dati, scrivendo a{' '}
+      <a href={mainLocation.emailHref}>{mainLocation.email}</a>. È inoltre possibile proporre
+      reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).
+    </p>
+
+    <h2>Modifiche alla presente informativa</h2>
+    <p>
+      {companyLegalName} si riserva il diritto di modificare o aggiornare la presente Privacy
+      Policy in qualsiasi momento. La data di ultimo aggiornamento è indicata in cima alla
+      pagina.
+    </p>
+  </LegalLayout>
+</BaseLayout>

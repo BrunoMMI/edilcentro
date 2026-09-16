@@ -1,0 +1,204 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/ui/PageHero.astro';
+import MapEmbed from '@components/contact/MapEmbed.astro';
+import { mainLocation, ferramentaLocation, social } from '@data/site';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Contatti', url: '/contatti/' },
+];
+
+const locations = [
+  { ...mainLocation, tag: 'Showroom Edil Centro', description: 'Pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e termoarredo.' },
+  { ...ferramentaLocation, tag: 'Ferramenta Edil Centro', description: 'Utensili, sistemi di fissaggio e materiali per l’edilizia.' },
+];
+---
+
+<BaseLayout
+  title="Contatti — Showroom e Ferramenta a Pace del Mela"
+  description="Contatta Edil Centro: indirizzo, telefono ed email dello showroom e del reparto Ferramenta a Pace del Mela (ME). Chiamaci, scrivici o vieni a trovarci."
+  path="/contatti/"
+  breadcrumbs={breadcrumbs}
+>
+  <PageHero
+    eyebrow="Siamo qui per te"
+    title="Contatti"
+    subtitle="Due sedi a Pace del Mela per seguire ogni fase del tuo progetto: lo showroom di materiali e arredo bagno e il reparto Ferramenta."
+    breadcrumbs={breadcrumbs}
+  />
+
+  <section class="section section--tight">
+    <div class="container contact-locations">
+      {
+        locations.map((loc, index) => (
+          <div class="contact-location" data-reveal data-reveal-index={index}>
+            <span class="contact-location__tag">{loc.tag}</span>
+            <p class="contact-location__desc">{loc.description}</p>
+
+            <ul class="contact-location__details">
+              <li>
+                <span class="contact-location__label">Indirizzo</span>
+                <address>
+                  {loc.street}<br />
+                  {loc.cap} {loc.city} ({loc.province})
+                </address>
+              </li>
+              <li>
+                <span class="contact-location__label">Telefono</span>
+                <a href={loc.phoneHref}>{loc.phone}</a>
+              </li>
+              <li>
+                <span class="contact-location__label">Cellulare</span>
+                <a href={loc.mobileHref}>{loc.mobile}</a>
+              </li>
+              <li>
+                <span class="contact-location__label">Email</span>
+                <a href={loc.emailHref}>{loc.email}</a>
+              </li>
+              {loc.hours && (
+                <li>
+                  <span class="contact-location__label">Orari</span>
+                  <ul class="contact-location__hours">
+                    {loc.hours.map((slot) => (
+                      <li>
+                        <span>{slot.days}</span> <span>{slot.time}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              )}
+            </ul>
+
+            <div class="contact-location__actions">
+              <a href={loc.phoneHref} class="btn btn-primary btn-sm">Chiama</a>
+              <a href={loc.emailHref} class="btn btn-secondary btn-sm">Scrivi una email</a>
+              <a href={loc.mapsHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                Indicazioni stradali
+              </a>
+            </div>
+
+            <div class="contact-location__map">
+              <MapEmbed query={loc.mapsQuery} label={loc.tag} />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container social-block" data-reveal>
+      <h2>Seguici sui social</h2>
+      <p class="lede">Novità, progetti e prodotti anche su Facebook e Instagram.</p>
+      <div class="social-block__links">
+        <a href={social.facebook} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Facebook</a>
+        <a href={social.instagram} target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Instagram</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-locations {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .contact-location {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+  }
+
+  .contact-location__tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent-dark);
+    background: var(--color-accent-light);
+    padding: 0.3em 0.7em;
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-sm);
+  }
+
+  .contact-location__desc {
+    color: var(--color-ink-soft);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-location__details {
+    display: grid;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
+    border-block: 1px solid var(--color-border);
+    margin-bottom: var(--space-md);
+  }
+
+  .contact-location__details > li {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: var(--space-sm);
+    font-size: 0.9375rem;
+  }
+
+  .contact-location__label {
+    font-weight: 600;
+    color: var(--color-ink-faint);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding-top: 0.15em;
+  }
+
+  .contact-location__details address {
+    font-style: normal;
+  }
+
+  .contact-location__hours {
+    display: grid;
+    gap: 0.25em;
+  }
+
+  .contact-location__hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  .contact-location__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    margin-bottom: var(--space-md);
+  }
+
+  .social-block {
+    text-align: center;
+  }
+
+  .social-block .lede {
+    margin-block: var(--space-sm) var(--space-md);
+  }
+
+  .social-block__links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+
+  @media (max-width: 900px) {
+    .contact-locations {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-location__details > li {
+      grid-template-columns: 1fr;
+      gap: 0.2em;
+    }
+  }
+</style>

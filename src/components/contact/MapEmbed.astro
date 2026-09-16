@@ -1,0 +1,73 @@
+---
+interface Props {
+  query: string;
+  label: string;
+}
+
+const { query, label } = Astro.props;
+const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+---
+
+<div class="map-facade" data-map-facade data-map-src={embedSrc} data-map-title={`Mappa: ${label}`}>
+  <div class="map-facade__placeholder">
+    <p>Mappa di {label}</p>
+    <button type="button" class="btn btn-secondary btn-sm" data-map-load>Visualizza la mappa di Google</button>
+    <p class="map-facade__note">
+      Al click verrà caricato un contenuto di Google Maps. Consulta la nostra{' '}
+      <a href="/cookie-policy/">Cookie Policy</a> per maggiori informazioni.
+    </p>
+  </div>
+</div>
+
+<style>
+  .map-facade {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-paper-alt);
+    border: 1px solid var(--color-border);
+  }
+
+  .map-facade__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+  }
+
+  .map-facade__placeholder p {
+    font-weight: 600;
+    color: var(--color-ink-soft);
+  }
+
+  .map-facade__note {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-ink-faint);
+    max-width: 32ch;
+  }
+
+  .map-facade__note a {
+    text-decoration: underline;
+  }
+
+  .map-facade.is-loaded {
+    border: none;
+  }
+
+  .map-facade :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+
+<script>
+  import '../../scripts/map-embed.ts';
+</script>

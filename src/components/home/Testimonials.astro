@@ -1,0 +1,80 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { testimonials } from '@data/content';
+---
+
+<section class="testimonials section">
+  <div class="container">
+    <SectionHeading eyebrow="Chi ci ha scelto" title="Le parole di chi ha lavorato con noi" align="center" />
+
+    <div class="testimonials__grid">
+      {
+        testimonials.map((item, index) => (
+          <figure class="testimonial-card" data-reveal data-reveal-index={index}>
+            <svg class="testimonial-card__quote" width="32" height="24" viewBox="0 0 32 24" fill="none" aria-hidden="true">
+              <path
+                d="M0 24V14.4C0 6.4 4.8 1.2 13.6 0l1.6 4C9.6 5.6 6.8 8.8 6.4 13.2H14V24H0Zm17.6 0V14.4c0-8 4.8-13.2 13.6-14.4l1.6 4c-5.6 1.6-8.4 4.8-8.8 9.2H32V24H17.6Z"
+                fill="currentColor"
+              />
+            </svg>
+            <blockquote>
+              <p>{item.quote}</p>
+            </blockquote>
+            <figcaption>
+              <span class="testimonial-card__name">{item.name}</span>
+              <span class="testimonial-card__role">{item.role}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+  }
+
+  .testimonial-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+  }
+
+  .testimonial-card__quote {
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+  }
+
+  .testimonial-card blockquote p {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-ink-soft);
+  }
+
+  .testimonial-card figcaption {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-md);
+  }
+
+  .testimonial-card__name {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .testimonial-card__role {
+    font-size: 0.8125rem;
+    color: var(--color-ink-faint);
+  }
+
+  @media (max-width: 900px) {
+    .testimonials__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

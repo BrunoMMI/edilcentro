@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import img from '@assets/ferramenta/ferramenta-edil-centro-02.webp';
+import { ferramentaLocation } from '@data/site';
+---
+
+<section class="ferramenta-preview section section--alt">
+  <div class="container ferramenta-preview__grid">
+    <div class="ferramenta-preview__image" data-reveal data-reveal="scale">
+      <Image
+        src={img}
+        alt="Reparto Ferramenta Edil Centro, esposizione utensili e materiali per l'edilizia"
+        widths={[420, 640, 840]}
+        sizes="(max-width: 900px) 90vw, 42vw"
+      />
+    </div>
+
+    <div class="ferramenta-preview__copy">
+      <p class="eyebrow" data-reveal>Reparto dedicato</p>
+      <h2 data-reveal data-reveal-index="1">Ferramenta: tutto per costruire, riparare, rinnovare</h2>
+      <p class="lede" data-reveal data-reveal-index="2">
+        In una sede distinta a Pace del Mela, il reparto Ferramenta di Edil Centro mette a
+        disposizione utensili, sistemi di fissaggio, sigillanti, vernici e materiali per
+        l'edilizia, con il supporto di uno staff pronto a consigliare la soluzione giusta.
+      </p>
+      <p class="ferramenta-preview__address" data-reveal data-reveal-index="3">
+        {ferramentaLocation.street}, {ferramentaLocation.city} ({ferramentaLocation.province})
+      </p>
+      <a href="/ferramenta/" class="btn btn-primary" data-reveal data-reveal-index="4">Scopri la Ferramenta</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ferramenta-preview__grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .ferramenta-preview__image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 4 / 3;
+    order: 2;
+  }
+
+  .ferramenta-preview__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ferramenta-preview__address {
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-block: var(--space-sm) var(--space-md);
+  }
+
+  @media (max-width: 900px) {
+    .ferramenta-preview__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ferramenta-preview__image {
+      order: 1;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .ferramenta-preview__copy {
+      order: 2;
+    }
+  }
+</style>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/home/Hero.astro';
+import Intro from '@components/home/Intro.astro';
+import CategoriesShowcase from '@components/home/CategoriesShowcase.astro';
+import Services from '@components/home/Services.astro';
+import WhyUs from '@components/home/WhyUs.astro';
+import History from '@components/home/History.astro';
+import ProjectsPreview from '@components/home/ProjectsPreview.astro';
+import FerramentaPreview from '@components/home/FerramentaPreview.astro';
+import BrandsMarquee from '@components/home/BrandsMarquee.astro';
+import Testimonials from '@components/home/Testimonials.astro';
+import CtaBanner from '@components/home/CtaBanner.astro';
+import ContactStrip from '@components/home/ContactStrip.astro';
+---
+
+<BaseLayout
+  title="Edil Centro Srl — Materiali edili, ceramiche e arredo bagno a Pace del Mela"
+  description="Edil Centro: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e ferramenta a Pace del Mela (ME). Dal 1969, consulenza in showroom e render 3D su misura."
+  path="/"
+>
+  <Hero />
+  <Intro />
+  <CategoriesShowcase />
+  <Services />
+  <WhyUs />
+  <History />
+  <ProjectsPreview />
+  <FerramentaPreview />
+  <BrandsMarquee />
+  <Testimonials />
+  <ContactStrip />
+  <CtaBanner />
+</BaseLayout>

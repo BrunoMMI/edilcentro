@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { mainNav } from '@data/nav';
+---
+
+<BaseLayout
+  title="Pagina non trovata"
+  description="La pagina richiesta non esiste o è stata spostata."
+  path="/404/"
+  noindex
+>
+  <section class="not-found">
+    <div class="container">
+      <p class="eyebrow">Errore 404</p>
+      <h1>Questa pagina non esiste (più)</h1>
+      <p class="lede">
+        La pagina che cerchi potrebbe essere stata spostata o non essere mai esistita. Prova a
+        tornare alla home oppure esplora le sezioni principali del sito.
+      </p>
+      <div class="not-found__actions">
+        <a href="/" class="btn btn-primary">Torna alla home</a>
+        <a href="/contatti/" class="btn btn-secondary">Contattaci</a>
+      </div>
+      <nav class="not-found__nav" aria-label="Pagine principali">
+        <ul>
+          {mainNav.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: var(--space-3xl) var(--space-2xl);
+    text-align: center;
+  }
+
+  .not-found .eyebrow {
+    justify-content: center;
+  }
+
+  .not-found h1 {
+    margin-block: var(--space-sm);
+  }
+
+  .not-found .lede {
+    max-width: 40rem;
+    margin-inline: auto;
+  }
+
+  .not-found__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  .not-found__nav ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .not-found__nav a {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+</style>

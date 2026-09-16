@@ -1,0 +1,124 @@
+---
+import { Image } from 'astro:assets';
+import heroMain from '@assets/progetti/render-bagno-marmo-01.jpeg';
+import heroSmall from '@assets/progetti/render-bagno-cementato-03.jpeg';
+import { yearsOfActivity, mainLocation } from '@data/site';
+---
+
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow" data-reveal>Materiali edili &amp; arredo bagno · Pace del Mela</p>
+      <h1 data-reveal data-reveal-index="1">
+        Ambienti che raccontano <em>qualità</em> e materia, da oltre {yearsOfActivity} anni
+      </h1>
+      <p class="lede" data-reveal data-reveal-index="2">
+        Edil Centro affianca privati e professionisti nella scelta di pavimenti, rivestimenti,
+        sanitari e arredo bagno: consulenza in showroom, render 3D su misura e un reparto
+        ferramenta dedicato, tutto a Pace del Mela.
+      </p>
+      <div class="hero__actions" data-reveal data-reveal-index="3">
+        <a href="/prodotti/" class="btn btn-primary">Scopri i prodotti</a>
+        <a href="/contatti/" class="btn btn-secondary">Vieni in showroom</a>
+      </div>
+      <p class="hero__meta" data-reveal data-reveal-index="4">
+        {mainLocation.street}, {mainLocation.city} ({mainLocation.province})
+      </p>
+    </div>
+
+    <div class="hero__visual" data-reveal data-reveal-index="2">
+      <div class="hero__visual-main">
+        <Image src={heroMain} alt="Render 3D di un bagno in marmo realizzato da Edil Centro" widths={[480, 720, 960]} sizes="(max-width: 900px) 90vw, 480px" loading="eager" />
+      </div>
+      <div class="hero__visual-small">
+        <Image src={heroSmall} alt="Render 3D di un bagno dallo stile cementato realizzato da Edil Centro" widths={[280, 420]} sizes="220px" loading="eager" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl) var(--space-xl);
+    overflow: clip;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .hero__copy h1 {
+    margin-block: var(--space-sm);
+  }
+
+  .hero__copy em {
+    font-style: italic;
+    color: var(--color-accent-dark);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+  }
+
+  .hero__meta {
+    margin-top: var(--space-md);
+    font-size: 0.875rem;
+    color: var(--color-ink-faint);
+  }
+
+  .hero__visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+  }
+
+  .hero__visual-main {
+    position: absolute;
+    inset: 0 8% 8% 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero__visual-main :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero__visual-small {
+    position: absolute;
+    right: -4%;
+    bottom: -6%;
+    width: 46%;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 6px solid var(--color-paper);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .hero__visual-small :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__visual {
+      aspect-ratio: 1 / 1;
+      max-width: 420px;
+      margin-inline: auto;
+      margin-top: var(--space-md);
+    }
+  }
+</style>

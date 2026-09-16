@@ -1,0 +1,37 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# environment variables
+.env
+.env.production
+
+# macOS
+.DS_Store
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# vercel
+.vercel/
+
+# original raw assets (kept locally, not needed in deploy repo)
+# Nota: la cartella "contenuti" contiene i file sorgente originali (foto ad alta risoluzione,
+# ~310MB, inclusi HEIC e duplicati non usati dal sito). Tutte le immagini effettivamente
+# utilizzate dal sito sono già state ottimizzate e copiate in src/assets/. Se vuoi comunque
+# versionare l'archivio originale, commenta la riga sotto (sconsigliato: appesantisce molto
+# il repository e i tempi di clone/deploy).
+contenuti/

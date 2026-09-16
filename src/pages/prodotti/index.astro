@@ -1,0 +1,36 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/ui/PageHero.astro';
+import CategoryJumpNav from '@components/products/CategoryJumpNav.astro';
+import CategorySection from '@components/products/CategorySection.astro';
+import CtaBanner from '@components/home/CtaBanner.astro';
+import { categories } from '@data/categories';
+---
+
+<BaseLayout
+  title="Prodotti — Pavimenti, rivestimenti, sanitari e arredo bagno"
+  description="Scopri le categorie di prodotto di Edil Centro: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia e spazio vasca, con i brand disponibili."
+  path="/prodotti/"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Prodotti', url: '/prodotti/' },
+  ]}
+>
+  <PageHero
+    eyebrow="Catalogo"
+    title="I nostri prodotti"
+    subtitle="Otto categorie pensate per accompagnarti in ogni fase del progetto: dai pavimenti alla rubinetteria, dall'arredo bagno al termoarredo."
+    breadcrumbs={[
+      { name: 'Home', url: '/' },
+      { name: 'Prodotti', url: '/prodotti/' },
+    ]}
+  />
+
+  <CategoryJumpNav />
+
+  <div class="container">
+    {categories.map((category, index) => <CategorySection category={category} index={index} />)}
+  </div>
+
+  <CtaBanner />
+</BaseLayout>

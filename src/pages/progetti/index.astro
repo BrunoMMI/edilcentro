@@ -1,0 +1,32 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/ui/PageHero.astro';
+import ProjectGallery from '@components/projects/ProjectGallery.astro';
+import CtaBanner from '@components/home/CtaBanner.astro';
+---
+
+<BaseLayout
+  title="Progetti — Render 3D di bagni realizzati da Edil Centro"
+  description="Sfoglia la galleria di render 3D fotorealistici realizzati da Edil Centro: ambientazioni bagno in stile marmo, cementato, geometrico, floreale ed effetto pennellata."
+  path="/progetti/"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Progetti', url: '/progetti/' },
+  ]}
+>
+  <PageHero
+    eyebrow="Render 3D"
+    title="I nostri progetti"
+    subtitle="Prima di iniziare i lavori, visualizza il risultato: una selezione di render fotorealistici realizzati su misura per ambientazioni bagno."
+    breadcrumbs={[
+      { name: 'Home', url: '/' },
+      { name: 'Progetti', url: '/progetti/' },
+    ]}
+  />
+
+  <div class="container">
+    <ProjectGallery />
+  </div>
+
+  <CtaBanner />
+</BaseLayout>

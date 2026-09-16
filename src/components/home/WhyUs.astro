@@ -1,0 +1,95 @@
+---
+import { Image } from 'astro:assets';
+import img from '@assets/showroom/edil-centro-showroom-01.jpg';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { whyUsPoints } from '@data/content';
+---
+
+<section class="whyus section section--alt">
+  <div class="container whyus__grid">
+    <div class="whyus__image" data-reveal data-reveal="scale">
+      <Image
+        src={img}
+        alt="Interno dello showroom Edil Centro con esposizione di rubinetteria e sanitari"
+        widths={[420, 640, 840]}
+        sizes="(max-width: 900px) 90vw, 42vw"
+      />
+    </div>
+
+    <div class="whyus__copy">
+      <SectionHeading eyebrow="Perché sceglierci" title="Competenza, materiali selezionati, un unico interlocutore" />
+      <dl class="whyus__list">
+        {
+          whyUsPoints.map((point, index) => (
+            <div class="whyus__item" data-reveal data-reveal-index={index}>
+              <dt>{point.title}</dt>
+              <dd>{point.description}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .whyus__grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  .whyus__image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 4 / 5;
+    order: 2;
+  }
+
+  .whyus__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .whyus__list {
+    display: grid;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .whyus__item {
+    padding-left: var(--space-md);
+    border-left: 3px solid var(--color-accent);
+  }
+
+  .whyus__item dt {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 600;
+    margin-bottom: 0.3em;
+  }
+
+  .whyus__item dd {
+    font-size: 0.9375rem;
+    color: var(--color-ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .whyus__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .whyus__image {
+      order: 1;
+      max-width: 420px;
+      margin-inline: auto;
+    }
+
+    .whyus__copy {
+      order: 2;
+    }
+  }
+</style>

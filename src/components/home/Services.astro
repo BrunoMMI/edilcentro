@@ -1,0 +1,92 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { services } from '@data/content';
+
+const icons: Record<string, string> = {
+  consulenza:
+    'M12 3 3 8v3h18V8l-9-5Zm-7 9v8h4v-6h6v6h4v-8H5Z',
+  render: 'M4 4h16v12H4V4Zm2 15h12v2H6v-2Zm5-9 2 4-2 4-2-4 2-4Z',
+  consegna: 'M3 7h11v7H3V7Zm11 2h4l3 3v2h-7V9ZM6.5 20a2 2 0 1 1 0-4 2 2 0 0 1 0 4Zm11 0a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z',
+  assistenza: 'M12 2a5 5 0 0 1 5 5v2a5 5 0 0 1-2 4v2l4 2v3H5v-3l4-2v-2a5 5 0 0 1-2-4V7a5 5 0 0 1 5-5Z',
+};
+---
+
+<section class="services section">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Come lavoriamo"
+      title="Un servizio completo, dal progetto alla posa"
+      subtitle="Non solo vendita di materiali: un percorso di consulenza pensato per accompagnarti in ogni fase."
+      align="center"
+    />
+
+    <div class="services__grid">
+      {
+        services.map((service, index) => (
+          <div class="service-card" data-reveal data-reveal-index={index}>
+            <span class="service-card__icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+                <path d={icons[service.icon]} />
+              </svg>
+            </span>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+
+  .service-card {
+    padding: var(--space-lg) var(--space-md);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: border-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .service-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+  }
+
+  .service-card__icon {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-light);
+    color: var(--color-accent-dark);
+    margin-bottom: var(--space-md);
+  }
+
+  .service-card h3 {
+    font-size: 1.0625rem;
+    margin-bottom: 0.5em;
+  }
+
+  .service-card p {
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 900px) {
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .services__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+import { mainLocation } from '@data/site';
+---
+
+<section class="cta">
+  <div class="container cta__inner" data-reveal>
+    <div class="cta__copy">
+      <h2>Hai in mente un progetto? Parliamone in showroom.</h2>
+      <p class="lede">
+        Vieni a trovarci a Pace del Mela per una consulenza gratuita, oppure contattaci per
+        richiedere informazioni su prodotti, disponibilità e render 3D.
+      </p>
+    </div>
+    <div class="cta__actions">
+      <a href="/contatti/" class="btn btn-primary">Richiedi un preventivo</a>
+      <a href={mainLocation.phoneHref} class="btn btn-outline-light">Chiama {mainLocation.phone}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--color-accent-dark);
+    color: #fff;
+    padding-block: var(--space-xl);
+  }
+
+  .cta__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .cta__copy h2 {
+    color: #fff;
+    max-width: 22ch;
+  }
+
+  .cta__copy .lede {
+    color: rgba(255, 255, 255, 0.82);
+    margin-top: var(--space-sm);
+    max-width: 46ch;
+  }
+
+  .cta__actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+</style>

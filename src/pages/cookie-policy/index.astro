@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LegalLayout from '@components/legal/LegalLayout.astro';
+import { cookieCategories } from '@data/cookie-categories';
+import { mainLocation, companyLegalName } from '@data/site';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Cookie Policy', url: '/cookie-policy/' },
+];
+
+const LAST_UPDATED = '16 settembre 2026';
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="Informativa sui cookie utilizzati dal sito di Edil Centro Srl."
+  path="/cookie-policy/"
+  breadcrumbs={breadcrumbs}
+>
+  <LegalLayout title="Cookie Policy" updated={LAST_UPDATED}>
+    <h2>Cosa sono i cookie</h2>
+    <p>
+      I cookie sono piccoli file di testo che i siti visitati inviano al browser dell'utente,
+      dove vengono memorizzati per poi essere ritrasmessi agli stessi siti alla visita
+      successiva. Sono utilizzati per far funzionare correttamente il sito, per ricordare le
+      preferenze dell'utente o, in altri casi, per finalità statistiche o di marketing (non
+      presenti su questo sito).
+    </p>
+
+    <h2>Cookie utilizzati da questo sito</h2>
+    <p>
+      Il sito di {companyLegalName} utilizza esclusivamente cookie tecnici, necessari al
+      funzionamento del sito stesso. <strong>Non vengono utilizzati cookie di analisi statistica
+      (analytics) né cookie di profilazione o marketing.</strong> Per questo motivo il banner
+      cookie non richiede un consenso attivo per le categorie non necessarie: semplicemente,
+      quelle categorie non sono presenti.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>Descrizione</th>
+          <th>Consenso richiesto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          cookieCategories.map((category) => (
+            <tr>
+              <td>{category.title}</td>
+              <td>{category.description}</td>
+              <td>{category.required ? 'No (indispensabili)' : 'Sì'}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    <p class="legal-note">
+      L'architettura del sito è già predisposta per accogliere, in futuro, categorie aggiuntive
+      (preferenze, analytics, marketing) qualora venissero realmente attivate: questa pagina e il
+      pannello di gestione dei consensi verranno aggiornati di conseguenza, senza mai attivare
+      cookie non necessari prima di un consenso esplicito dell'utente.
+    </p>
+
+    <h2>Cookie di terze parti</h2>
+    <p>
+      Nella pagina Contatti, solo dopo un clic esplicito dell'utente sul pulsante "Visualizza la
+      mappa", viene caricata una mappa incorporata di Google Maps, che potrebbe impostare propri
+      cookie secondo l'informativa di Google. Questo contenuto non viene mai caricato
+      automaticamente all'apertura della pagina.
+    </p>
+
+    <h2>Come gestire le preferenze</h2>
+    <p>
+      Puoi modificare in qualsiasi momento le tue preferenze cookie utilizzando il link "Gestisci
+      preferenze cookie" presente nel footer di ogni pagina del sito. Puoi inoltre gestire o
+      disattivare i cookie direttamente dalle impostazioni del tuo browser: tieni presente che
+      disabilitare i cookie tecnici necessari potrebbe compromettere il corretto funzionamento
+      del sito.
+    </p>
+
+    <h2>Contatti</h2>
+    <p>
+      Per qualsiasi domanda relativa a questa Cookie Policy puoi scrivere a{' '}
+      <a href={mainLocation.emailHref}>{mainLocation.email}</a>.
+    </p>
+  </LegalLayout>
+</BaseLayout>
