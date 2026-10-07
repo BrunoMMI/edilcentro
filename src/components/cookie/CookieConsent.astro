@@ -4,14 +4,16 @@ import { cookieCategories } from '@data/cookie-categories';
 
 <div class="cookie-banner" data-cookie-banner role="region" aria-label="Informativa cookie" hidden>
   <div class="cookie-banner__inner">
+    <p class="cookie-banner__title">Cookie e privacy</p>
     <p>
-      Utilizziamo solo cookie tecnici necessari al funzionamento del sito. Non utilizziamo cookie di analisi o
-      marketing. Puoi consultare la nostra <a href="/cookie-policy/">Cookie Policy</a> per maggiori dettagli.
+      Questo sito usa solo strumenti tecnici necessari al funzionamento. Non usiamo cookie di analisi o di
+      marketing. Dettagli nella <a href="/cookie-policy/">Cookie Policy</a> e nella{' '}
+      <a href="/privacy-policy/">Privacy Policy</a>.
     </p>
     <div class="cookie-banner__actions">
-      <button type="button" class="btn btn-secondary btn-sm" data-cookie-reject>Rifiuta non necessari</button>
-      <button type="button" class="btn btn-secondary btn-sm" data-cookie-customize>Personalizza</button>
       <button type="button" class="btn btn-primary btn-sm" data-cookie-accept-all>Accetta tutti</button>
+      <button type="button" class="btn btn-primary btn-sm" data-cookie-reject>Solo necessari</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-cookie-customize>Personalizza</button>
     </div>
   </div>
 </div>
@@ -20,27 +22,28 @@ import { cookieCategories } from '@data/cookie-categories';
   <form method="dialog" class="cookie-dialog__form">
     <div class="cookie-dialog__header">
       <h2 id="cookie-dialog-title">Preferenze cookie</h2>
-      <button type="button" class="cookie-dialog__close" data-cookie-dialog-close aria-label="Chiudi">
+      <button type="button" class="cookie-dialog__close" data-cookie-dialog-close aria-label="Chiudi senza salvare">
         &times;
       </button>
     </div>
-    <p>
-      Gestisci le categorie di cookie utilizzate su questo sito. I cookie necessari sono sempre attivi perché
-      indispensabili al funzionamento del sito.
+    <p class="cookie-dialog__intro">
+      Scegli quali categorie attivare. Gli strumenti necessari sono sempre attivi perché indispensabili al
+      funzionamento del sito. Puoi cambiare idea in qualsiasi momento da "Preferenze cookie" nel footer.
     </p>
     <ul class="cookie-dialog__list">
       {
         cookieCategories.map((category) => (
           <li>
             <div class="cookie-dialog__item-head">
-              <label>
+              <label class="cookie-switch">
                 <input
                   type="checkbox"
                   data-cookie-toggle={category.slug}
                   checked={category.required}
                   disabled={category.required}
                 />
-                <span>{category.title}</span>
+                <span class="cookie-switch__track" aria-hidden="true" />
+                <span class="cookie-switch__label">{category.title}</span>
               </label>
               {category.required && <span class="cookie-dialog__badge">Sempre attivi</span>}
             </div>
@@ -67,126 +70,215 @@ import { cookieCategories } from '@data/cookie-categories';
     right: var(--space-sm);
     bottom: var(--space-sm);
     z-index: 300;
-    max-width: 680px;
+    max-width: 720px;
     margin-inline: auto;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     padding: var(--space-md);
   }
 
+  .cookie-banner__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-ink);
+    margin-bottom: 0.2em;
+  }
+
   .cookie-banner__inner p {
-    font-size: 0.875rem;
-    color: var(--color-ink-soft);
-    margin-bottom: var(--space-sm);
+    font-size: 0.9375rem;
+    max-width: none;
   }
 
   .cookie-banner__inner a {
     text-decoration: underline;
+    text-underline-offset: 3px;
     color: var(--color-primary);
+    font-weight: 600;
   }
 
   .cookie-banner__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6em;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
   }
 
   .cookie-dialog {
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-xl);
     padding: 0;
-    width: min(560px, 92vw);
+    width: min(600px, calc(100vw - 2rem));
+    max-height: calc(100svh - 2rem);
+    overflow: auto;
     box-shadow: var(--shadow-lg);
+    background: var(--color-surface);
+    color: var(--color-ink);
   }
 
   .cookie-dialog::backdrop {
-    background: rgba(32, 29, 25, 0.55);
-    backdrop-filter: blur(2px);
+    background: rgba(8, 24, 38, 0.7);
   }
 
   .cookie-dialog__form {
-    padding: var(--space-lg);
+    padding: var(--space-md);
   }
 
   .cookie-dialog__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--space-sm);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+  }
+
+  .cookie-dialog__header h2 {
+    font-size: 1.5rem;
   }
 
   .cookie-dialog__close {
-    font-size: 1.5rem;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    font-size: 1.75rem;
     line-height: 1;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-full);
+    border-radius: 50%;
   }
 
   .cookie-dialog__close:hover {
     background: var(--color-paper-alt);
   }
 
-  .cookie-dialog__form > p {
+  .cookie-dialog__intro {
     font-size: 0.9375rem;
     margin-bottom: var(--space-md);
+    max-width: none;
   }
 
   .cookie-dialog__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    gap: var(--grout);
     margin-bottom: var(--space-md);
   }
 
   .cookie-dialog__list li {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: var(--space-sm);
+    background: var(--color-paper);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .cookie-dialog__list p {
+    font-size: 0.9375rem;
+    max-width: none;
   }
 
   .cookie-dialog__item-head {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: var(--space-xs);
     margin-bottom: 0.35em;
   }
 
-  .cookie-dialog__item-head label {
-    display: flex;
+  /* Interruttore accessibile: l'input resta reale e focalizzabile */
+  .cookie-switch {
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    gap: 0.6em;
-    font-weight: 600;
+    gap: 0.75em;
+    min-height: 44px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .cookie-switch input {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 52px;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  .cookie-switch__track {
+    position: relative;
+    flex-shrink: 0;
+    width: 52px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--color-border-strong);
+    transition: background-color var(--transition-base);
+  }
+
+  .cookie-switch__track::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition-base);
+  }
+
+  .cookie-switch input:checked + .cookie-switch__track {
+    background: var(--color-accent-dark);
+  }
+
+  .cookie-switch input:checked + .cookie-switch__track::after {
+    transform: translateX(24px);
+  }
+
+  .cookie-switch input:disabled {
+    cursor: not-allowed;
+  }
+
+  .cookie-switch input:disabled + .cookie-switch__track {
+    opacity: 0.75;
+  }
+
+  .cookie-switch input:focus-visible + .cookie-switch__track {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
   }
 
   .cookie-dialog__badge {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
     color: var(--color-accent-dark);
     background: var(--color-accent-light);
-    padding: 0.2em 0.6em;
-    border-radius: var(--radius-full);
-  }
-
-  .cookie-dialog__list p {
-    font-size: 0.875rem;
-    color: var(--color-ink-soft);
+    padding: 0.2em 0.7em;
+    border-radius: var(--radius-sm);
   }
 
   .cookie-dialog__actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
-    gap: 0.6em;
+    gap: var(--space-xs);
   }
 
-  @media (max-width: 480px) {
-    .cookie-banner__actions {
-      flex-direction: column;
+  @media (max-width: 560px) {
+    .cookie-banner {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-width: 1px 0 0;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding: var(--space-sm);
     }
 
-    .cookie-banner__actions .btn {
-      width: 100%;
+    .cookie-banner__actions .btn,
+    .cookie-dialog__actions .btn {
+      flex: 1 1 100%;
     }
   }
 </style>

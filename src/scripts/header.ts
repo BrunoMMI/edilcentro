@@ -39,5 +39,5 @@ window.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('resize', () => {
-  if (window.innerWidth > 900) closeNav();
+  if (window.innerWidth > 1080) closeNav();
 });

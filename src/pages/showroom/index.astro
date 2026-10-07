@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/ui/PageHero.astro';
+import Gallery from '@components/ui/Gallery.astro';
+import CtaBanner from '@components/home/CtaBanner.astro';
+import { showroomPhotos, showroomPhoto } from '@data/showroom';
+import { mainLocation } from '@data/site';
+import { SITE_URL } from '@/consts';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Showroom', url: '/showroom/' },
+];
+
+const hero = showroomPhoto('galleria-coperta-showroom');
+const items = showroomPhotos.map((p) => ({ image: p.image, alt: p.alt }));
+
+const gallerySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: 'Showroom Edil Centro a Pace del Mela',
+  url: `${SITE_URL}/showroom/`,
+  inLanguage: 'it-IT',
+  contentLocation: {
+    '@type': 'Place',
+    name: mainLocation.name,
+    address: `${mainLocation.street}, ${mainLocation.cap} ${mainLocation.city} (${mainLocation.province})`,
+  },
+  numberOfItems: showroomPhotos.length,
+};
+---
+
+<BaseLayout
+  title="Showroom — Ceramiche, sanitari e arredo bagno a Pace del Mela"
+  description="Guarda lo showroom Edil Centro a Pace del Mela: lastre in gres di grande formato, rivestimenti, decori, sanitari e rubinetteria esposti in ambienti reali. Via Giovanni Verga 4."
+  path="/showroom/"
+  breadcrumbs={breadcrumbs}
+  image={hero.image.src}
+  jsonLd={[gallerySchema]}
+>
+  <PageHero
+    title="Il nostro showroom"
+    subtitle="Pavimenti, rivestimenti, sanitari e rubinetteria esposti in ambienti reali, in Via Giovanni Verga 4 a Pace del Mela. Vieni a vedere e toccare i materiali prima di scegliere."
+    breadcrumbs={breadcrumbs}
+    image={hero.image}
+    imageAlt={hero.alt}
+  />
+
+  <section class="section section--tight">
+    <div class="container">
+      <Gallery items={items} mosaic lightboxLabel="Anteprima foto dello showroom" />
+    </div>
+  </section>
+
+  <CtaBanner />
+</BaseLayout>

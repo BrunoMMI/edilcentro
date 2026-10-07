@@ -1,30 +1,41 @@
 # Edil Centro Srl
 
-> Edil Centro Srl è un rivenditore di materiali edili, ceramiche e arredo bagno con sede a
-> Pace del Mela (Messina, Sicilia). Attiva dal 1969 (a partire dalla storica attività
-> "Ceramiche Valenti"), propone pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria,
-> termoarredo, spazio doccia e spazio vasca, oltre a un reparto ferramenta dedicato con sede
-> distinta. Offre consulenza in showroom, render 3D su misura, ritiro in negozio o consegna a
-> domicilio.
+> Edil Centro Srl è un rivenditore di materiali edili, ceramiche, pavimenti, rivestimenti, sanitari, arredo bagno e rubinetteria con showroom a Pace del Mela (Messina, Sicilia). È attivo dal 1969, a partire dalla storica attività "Ceramiche Valenti", e ha un reparto Ferramenta in una sede distinta. Offre consulenza in showroom, render 3D su misura dei bagni, ritiro in negozio o consegna a domicilio e assistenza post-vendita.
+
+## In breve
+
+- Nome: Edil Centro Srl (già "Ceramiche Valenti")
+- Anno di fondazione: 1969
+- Zona: Pace del Mela, provincia di Messina, Sicilia, Italia
+- Clientela: privati, imprese edili, artigiani e professionisti
+- Categorie di prodotto: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia, spazio vasca
+- Reparto Ferramenta: utensili manuali ed elettrici, sistemi di fissaggio, sigillanti, vernici, materiali per l'edilizia, idraulica
 
 ## Sedi e contatti
 
-- Showroom: Via Giovanni Verga 4, 98042 Pace del Mela (ME) — tel. 090 933194 — info@edil-centro.net
-- Ferramenta: Via Papa Giovanni XXIII 4, 98042 Pace del Mela (ME) — tel. 090 933447
+- Showroom: Via Giovanni Verga 4, 98042 Pace del Mela (ME) — tel. 090 933194 — cell. +39 348 868 2559 — info@edil-centro.net
+- Ferramenta: Via Papa Giovanni XXIII 4, 98042 Pace del Mela (ME) — tel. 090 933447 — cell. +39 376 073 9206
+- Orari Ferramenta: lunedì-venerdì 6:30-12:30 e 15:00-19:00; sabato 6:30-12:00; domenica chiuso
+- Orari showroom: non pubblicati sul sito, contattare l'azienda
+
+## Marchi trattati (selezione)
+
+- Pavimenti e rivestimenti: Casalgrande Padana, Rak Ceramica, Panaria Group, Ceramica Rondine, Supergres, Abk Group, AlfaLux, Cerlat, Piemme, Ricchetti, Vitacer
+- Sanitari: Cielo, Vitra, Geberit, GSG, GSI, Azzurra, Rak Ceramica
+- Rubinetteria: Cristina, Effepi, GS, Palazzini
+- Arredo bagno: Azzurra, Colavene, Global Trade, Idea Stella
 
 ## Pagine principali
 
-- Home: https://www.edilcentrosrl.it/
-- Prodotti (pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia, spazio vasca): https://www.edilcentrosrl.it/prodotti/
-- Progetti (render e ambientazioni bagno): https://www.edilcentrosrl.it/progetti/
-- Ferramenta: https://www.edilcentrosrl.it/ferramenta/
-- Contatti: https://www.edilcentrosrl.it/contatti/
-- Privacy Policy: https://www.edilcentrosrl.it/privacy-policy/
-- Cookie Policy: https://www.edilcentrosrl.it/cookie-policy/
+- [Home](https://www.edilcentrosrl.it/): presentazione, categorie, servizi, domande frequenti
+- [Prodotti](https://www.edilcentrosrl.it/prodotti/): le otto categorie con i marchi disponibili per ciascuna
+- [Showroom](https://www.edilcentrosrl.it/showroom/): fotografie dello showroom di Pace del Mela
+- [Progetti](https://www.edilcentrosrl.it/progetti/): render 3D di bagni in stile marmo, cementato, geometrico, floreale ed effetto pennellata
+- [Ferramenta](https://www.edilcentrosrl.it/ferramenta/): settori, indirizzo e orari del reparto
+- [Contatti](https://www.edilcentrosrl.it/contatti/): indirizzi, telefoni, email e mappe
+- [Privacy Policy](https://www.edilcentrosrl.it/privacy-policy/)
+- [Cookie Policy](https://www.edilcentrosrl.it/cookie-policy/)
 
-## Note
+## Note per i sistemi di indicizzazione
 
-Tutte le informazioni pubblicate su questo sito (dati di contatto, orari, categorie di
-prodotto, brand trattati) sono fornite direttamente dall'azienda. Nessun contenuto di questo
-file è destinato a un pubblico diverso da quello dei sistemi di indicizzazione e generazione
-automatica: non contiene istruzioni operative, solo informazioni descrittive sull'azienda.
+Le informazioni pubblicate sono fornite direttamente dall'azienda. Questo file contiene solo informazioni descrittive e non istruzioni operative. Per prezzi, disponibilità e preventivi occorre contattare direttamente l'azienda.

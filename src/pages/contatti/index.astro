@@ -1,28 +1,44 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/ui/PageHero.astro';
 import MapEmbed from '@components/contact/MapEmbed.astro';
 import { mainLocation, ferramentaLocation, social } from '@data/site';
+import { showroomPhoto } from '@data/showroom';
+import ferramentaPhoto from '@assets/ferramenta/ferramenta-edil-centro-01.webp';
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
   { name: 'Contatti', url: '/contatti/' },
 ];
 
+const showroomFacade = showroomPhoto('facciata-sanitari-arredi');
+
 const locations = [
-  { ...mainLocation, tag: 'Showroom Edil Centro', description: 'Pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e termoarredo.' },
-  { ...ferramentaLocation, tag: 'Ferramenta Edil Centro', description: 'Utensili, sistemi di fissaggio e materiali per l’edilizia.' },
+  {
+    ...mainLocation,
+    tag: 'Showroom Edil Centro',
+    description: 'Pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e termoarredo.',
+    photo: showroomFacade.image,
+    photoAlt: showroomFacade.alt,
+  },
+  {
+    ...ferramentaLocation,
+    tag: 'Ferramenta Edil Centro',
+    description: 'Utensili, sistemi di fissaggio e materiali per l’edilizia.',
+    photo: ferramentaPhoto,
+    photoAlt: 'Reparto Ferramenta Edil Centro a Pace del Mela',
+  },
 ];
 ---
 
 <BaseLayout
   title="Contatti — Showroom e Ferramenta a Pace del Mela"
-  description="Contatta Edil Centro: indirizzo, telefono ed email dello showroom e del reparto Ferramenta a Pace del Mela (ME). Chiamaci, scrivici o vieni a trovarci."
+  description="Come contattare Edil Centro: indirizzo, telefono, email e orari dello showroom (Via Giovanni Verga 4) e del reparto Ferramenta (Via Papa Giovanni XXIII 4) a Pace del Mela, Messina."
   path="/contatti/"
   breadcrumbs={breadcrumbs}
 >
   <PageHero
-    eyebrow="Siamo qui per te"
     title="Contatti"
     subtitle="Due sedi a Pace del Mela per seguire ogni fase del tuo progetto: lo showroom di materiali e arredo bagno e il reparto Ferramenta."
     breadcrumbs={breadcrumbs}
@@ -32,56 +48,64 @@ const locations = [
     <div class="container contact-locations">
       {
         locations.map((loc, index) => (
-          <div class="contact-location" data-reveal data-reveal-index={index}>
-            <span class="contact-location__tag">{loc.tag}</span>
-            <p class="contact-location__desc">{loc.description}</p>
-
-            <ul class="contact-location__details">
-              <li>
-                <span class="contact-location__label">Indirizzo</span>
-                <address>
-                  {loc.street}<br />
-                  {loc.cap} {loc.city} ({loc.province})
-                </address>
-              </li>
-              <li>
-                <span class="contact-location__label">Telefono</span>
-                <a href={loc.phoneHref}>{loc.phone}</a>
-              </li>
-              <li>
-                <span class="contact-location__label">Cellulare</span>
-                <a href={loc.mobileHref}>{loc.mobile}</a>
-              </li>
-              <li>
-                <span class="contact-location__label">Email</span>
-                <a href={loc.emailHref}>{loc.email}</a>
-              </li>
-              {loc.hours && (
-                <li>
-                  <span class="contact-location__label">Orari</span>
-                  <ul class="contact-location__hours">
-                    {loc.hours.map((slot) => (
-                      <li>
-                        <span>{slot.days}</span> <span>{slot.time}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              )}
-            </ul>
-
-            <div class="contact-location__actions">
-              <a href={loc.phoneHref} class="btn btn-primary btn-sm">Chiama</a>
-              <a href={loc.emailHref} class="btn btn-secondary btn-sm">Scrivi una email</a>
-              <a href={loc.mapsHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
-                Indicazioni stradali
-              </a>
+          <article class="contact-location" data-reveal data-reveal-index={index}>
+            <div class="contact-location__photo">
+              <Image src={loc.photo} alt={loc.photoAlt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 46vw" />
             </div>
+            <div class="contact-location__body">
+              <h2>{loc.tag}</h2>
+              <p>{loc.description}</p>
 
-            <div class="contact-location__map">
+              <dl class="contact-location__details">
+                <div>
+                  <dt>Indirizzo</dt>
+                  <dd>
+                    <address>
+                      {loc.street}<br />
+                      {loc.cap} {loc.city} ({loc.province})
+                    </address>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Telefono</dt>
+                  <dd><a href={loc.phoneHref}>{loc.phone}</a></dd>
+                </div>
+                <div>
+                  <dt>Cellulare</dt>
+                  <dd><a href={loc.mobileHref}>{loc.mobile}</a></dd>
+                </div>
+                <div>
+                  <dt>Email</dt>
+                  <dd><a href={loc.emailHref}>{loc.email}</a></dd>
+                </div>
+                {loc.hours && (
+                  <div>
+                    <dt>Orari</dt>
+                    <dd>
+                      <ul class="contact-location__hours">
+                        {loc.hours.map((slot) => (
+                          <li>
+                            <span>{slot.days}</span>
+                            <span>{slot.time}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+
+              <div class="contact-location__actions">
+                <a href={loc.phoneHref} class="btn btn-primary btn-sm">Chiama</a>
+                <a href={loc.emailHref} class="btn btn-secondary btn-sm">Scrivi una email</a>
+                <a href={loc.mapsHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                  Indicazioni stradali
+                </a>
+              </div>
+
               <MapEmbed query={loc.mapsQuery} label={loc.tag} />
             </div>
-          </div>
+          </article>
         ))
       }
     </div>
@@ -103,78 +127,79 @@ const locations = [
   .contact-locations {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
+    gap: var(--grout);
   }
 
   .contact-location {
+    display: flex;
+    flex-direction: column;
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-lg);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
   }
 
-  .contact-location__tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-accent-dark);
-    background: var(--color-accent-light);
-    padding: 0.3em 0.7em;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-sm);
+  .contact-location__photo {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
   }
 
-  .contact-location__desc {
-    color: var(--color-ink-soft);
-    margin-bottom: var(--space-md);
+  .contact-location__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .contact-location__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    flex: 1;
   }
 
   .contact-location__details {
     display: grid;
-    gap: var(--space-sm);
-    padding-block: var(--space-sm);
-    border-block: 1px solid var(--color-border);
-    margin-bottom: var(--space-md);
+    margin-block: var(--space-xs);
+    border-top: 1px solid var(--color-border-strong);
   }
 
-  .contact-location__details > li {
+  .contact-location__details > div {
     display: grid;
-    grid-template-columns: 7rem 1fr;
+    grid-template-columns: 6.5rem 1fr;
     gap: var(--space-sm);
-    font-size: 0.9375rem;
+    padding-block: 0.75em;
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .contact-location__label {
-    font-weight: 600;
-    color: var(--color-ink-faint);
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding-top: 0.15em;
+  .contact-location__details dt {
+    font-weight: 700;
+    color: var(--color-ink);
   }
 
   .contact-location__details address {
     font-style: normal;
   }
 
-  .contact-location__hours {
-    display: grid;
-    gap: 0.25em;
+  .contact-location__details a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .contact-location__hours li {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: var(--space-sm);
+    gap: 0 var(--space-sm);
   }
 
   .contact-location__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6em;
-    margin-bottom: var(--space-md);
+    gap: var(--space-xs);
+    margin-bottom: var(--space-xs);
   }
 
   .social-block {
@@ -182,23 +207,30 @@ const locations = [
   }
 
   .social-block .lede {
-    margin-block: var(--space-sm) var(--space-md);
+    margin: var(--space-sm) auto var(--space-md);
   }
 
   .social-block__links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
   }
 
   @media (max-width: 900px) {
     .contact-locations {
       grid-template-columns: 1fr;
     }
+  }
 
-    .contact-location__details > li {
+  @media (max-width: 480px) {
+    .contact-location__details > div {
       grid-template-columns: 1fr;
-      gap: 0.2em;
+      gap: 0.1em;
+    }
+
+    .contact-location__actions .btn {
+      flex: 1 1 100%;
     }
   }
 </style>

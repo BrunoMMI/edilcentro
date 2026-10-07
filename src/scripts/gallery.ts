@@ -70,4 +70,7 @@ dialog?.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') step(-1);
 });
 
-applyFilter('all');
+const hashFilter = decodeURIComponent(window.location.hash.slice(1));
+const initialButton = filterButtons.find((btn) => btn.dataset.galleryFilter === hashFilter);
+if (initialButton) initialButton.click();
+else applyFilter('all');

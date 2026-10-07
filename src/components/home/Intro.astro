@@ -1,81 +1,106 @@
 ---
 import { Image } from 'astro:assets';
-import storefront from '@assets/showroom/edil-centro-showroom-05.jpg';
-import { foundedYear, yearsOfActivity } from '@data/site';
+import { showroomPhoto } from '@data/showroom';
+import { foundedYear, yearsOfActivity, mainLocation } from '@data/site';
+
+const storefront = showroomPhoto('facciata-ceramiche');
 ---
 
 <section class="intro section">
   <div class="container intro__grid">
-    <div class="intro__image" data-reveal data-reveal="scale">
-      <Image
-        src={storefront}
-        alt="Vetrina dello showroom Edil Centro a Pace del Mela, reparto sanitari e arredo"
-        widths={[420, 640, 840]}
-        sizes="(max-width: 900px) 90vw, 42vw"
-      />
+    <div class="intro__copy">
+      <h2 data-reveal>Dal {foundedYear} un punto di riferimento per edilizia e arredo bagno nel Messinese</h2>
+      <p class="lede" data-reveal data-reveal-index="1">
+        Edil Centro fornisce materiali edili, ceramiche e soluzioni per la ristrutturazione a privati e imprese.
+        In oltre {yearsOfActivity} anni di attività, a partire dalla storica esperienza di Ceramiche Valenti,
+        abbiamo costruito un catalogo ampio e un rapporto di fiducia con chi ci sceglie.
+      </p>
+      <p data-reveal data-reveal-index="2">
+        Lo showroom di Pace del Mela riunisce pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e
+        termoarredo. Il reparto Ferramenta, in una sede distinta, completa l'offerta con utensili e materiali
+        per l'edilizia.
+      </p>
+      <div class="intro__actions" data-reveal data-reveal-index="3">
+        <a href="/showroom/" class="btn btn-secondary">Vedi lo showroom</a>
+        <a href="/contatti/" class="btn btn-primary">Come raggiungerci</a>
+      </div>
     </div>
 
-    <div class="intro__copy">
-      <p class="eyebrow" data-reveal>Chi è Edil Centro</p>
-      <h2 data-reveal data-reveal-index="1">
-        Dal {foundedYear}, un punto di riferimento per l'edilizia e l'arredo bagno in provincia di Messina
-      </h2>
-      <p class="lede" data-reveal data-reveal-index="2">
-        Edil Centro fornisce materiali edili, ceramiche e soluzioni per la ristrutturazione a
-        imprese e privati. In oltre {yearsOfActivity} anni di attività, a partire dalla storica
-        esperienza di Ceramiche Valenti, l'azienda ha costruito un catalogo ampio e un rapporto di
-        fiducia con la propria clientela, affiancando ogni progetto con competenza tecnica e
-        attenzione al dettaglio.
-      </p>
-      <p data-reveal data-reveal-index="3">
-        Oggi lo showroom di Pace del Mela riunisce pavimenti, rivestimenti, sanitari, arredo
-        bagno, rubinetteria e termoarredo, mentre il reparto Ferramenta, in sede distinta,
-        completa l'offerta con utensili e materiali per l'edilizia.
-      </p>
-      <a href="/contatti/" class="btn btn-secondary" data-reveal data-reveal-index="4">
-        Vieni a trovarci in showroom
-      </a>
-    </div>
+    <figure class="intro__photo" data-reveal="fade">
+      <div class="intro__arch arch">
+      <Image
+        src={storefront.image}
+        alt={storefront.alt}
+        widths={[480, 720, 960]}
+        sizes="(max-width: 900px) 80vw, 40vw"
+      />
+      </div>
+      <figcaption>{mainLocation.street}, {mainLocation.city}</figcaption>
+    </figure>
   </div>
 </section>
 
 <style>
   .intro__grid {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
-    gap: var(--space-2xl);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
     align-items: center;
   }
 
-  .intro__image {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    aspect-ratio: 4 / 5;
+  .intro__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
   }
 
-  .intro__image :global(img) {
+  .intro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .intro__photo {
+    position: relative;
+    width: min(100%, 460px);
+    justify-self: center;
+  }
+
+  .intro__arch {
+    box-shadow: var(--shadow-lg);
+  }
+
+  .intro__arch :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .intro__copy p {
-    margin-bottom: var(--space-sm);
-  }
-
-  .intro__copy .btn {
-    margin-top: var(--space-sm);
+  .intro__photo figcaption {
+    position: absolute;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    padding: 0.6em 1.2em;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-md);
   }
 
   @media (max-width: 900px) {
     .intro__grid {
       grid-template-columns: 1fr;
+      gap: var(--space-lg);
     }
 
-    .intro__image {
-      max-width: 420px;
-      margin-inline: auto;
+    .intro__photo {
+      order: -1;
+      width: min(80%, 380px);
     }
   }
 </style>

@@ -1,124 +1,234 @@
 ---
 import { Image } from 'astro:assets';
-import heroMain from '@assets/progetti/render-bagno-marmo-01.jpeg';
-import heroSmall from '@assets/progetti/render-bagno-cementato-03.jpeg';
-import { yearsOfActivity, mainLocation } from '@data/site';
+import RoofRule from '@components/ui/RoofRule.astro';
+import { showroomPhoto } from '@data/showroom';
+import { foundedYear, mainLocation } from '@data/site';
+
+const facade = showroomPhoto('facciata-sanitari-arredi');
+const side = [
+  showroomPhoto('rubinetteria-e-sanitari-esposti'),
+  showroomPhoto('galleria-coperta-showroom'),
+  showroomPhoto('corridoio-espositori-onice'),
+];
 ---
 
 <section class="hero">
-  <div class="container hero__grid">
-    <div class="hero__copy">
-      <p class="eyebrow" data-reveal>Materiali edili &amp; arredo bagno · Pace del Mela</p>
-      <h1 data-reveal data-reveal-index="1">
-        Ambienti che raccontano <em>qualità</em> e materia, da oltre {yearsOfActivity} anni
-      </h1>
-      <p class="lede" data-reveal data-reveal-index="2">
-        Edil Centro affianca privati e professionisti nella scelta di pavimenti, rivestimenti,
-        sanitari e arredo bagno: consulenza in showroom, render 3D su misura e un reparto
-        ferramenta dedicato, tutto a Pace del Mela.
-      </p>
-      <div class="hero__actions" data-reveal data-reveal-index="3">
-        <a href="/prodotti/" class="btn btn-primary">Scopri i prodotti</a>
-        <a href="/contatti/" class="btn btn-secondary">Vieni in showroom</a>
+  <div class="container">
+    <div class="hero__wall">
+      <div class="hero__text">
+        <h1>Ceramiche, sanitari e arredo bagno a Pace del Mela, dal {foundedYear}</h1>
+        <p class="lede">
+          Showroom di pavimenti, rivestimenti, sanitari e rubinetteria, con reparto ferramenta dedicato. Ti
+          consigliamo di persona e, prima di acquistare, ti mostriamo il tuo bagno con un render 3D su misura.
+        </p>
+        <div class="hero__actions">
+          <a href="/showroom/" class="btn btn-light">Scopri lo showroom</a>
+          <a href="/prodotti/" class="btn btn-outline-light">Guarda i prodotti</a>
+        </div>
+        <p class="hero__address">
+          {mainLocation.street}, {mainLocation.cap} {mainLocation.city} ({mainLocation.province})
+        </p>
       </div>
-      <p class="hero__meta" data-reveal data-reveal-index="4">
-        {mainLocation.street}, {mainLocation.city} ({mainLocation.province})
-      </p>
-    </div>
 
-    <div class="hero__visual" data-reveal data-reveal-index="2">
-      <div class="hero__visual-main">
-        <Image src={heroMain} alt="Render 3D di un bagno in marmo realizzato da Edil Centro" widths={[480, 720, 960]} sizes="(max-width: 900px) 90vw, 480px" loading="eager" />
+      <div class="hero__arch-wrap">
+        <div class="hero__photo hero__photo--main arch">
+          <Image
+            src={facade.image}
+            alt={facade.alt}
+            widths={[480, 720, 960, 1200]}
+            sizes="(max-width: 900px) 80vw, 40vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="hero__badge" aria-hidden="true">
+          <strong>{foundedYear}</strong>
+          <span>Ceramiche Valenti</span>
+        </div>
       </div>
-      <div class="hero__visual-small">
-        <Image src={heroSmall} alt="Render 3D di un bagno dallo stile cementato realizzato da Edil Centro" widths={[280, 420]} sizes="220px" loading="eager" />
-      </div>
+
+      {
+        side.map((photo, index) => (
+          <div class:list={['hero__photo', 'hero__photo--side', { 'hero__photo--lead': index === 0 }]}>
+            <Image src={photo.image} alt={photo.alt} widths={[360, 560, 760]} sizes="(max-width: 900px) 50vw, 32vw" loading="eager" />
+          </div>
+        ))
+      }
     </div>
+  </div>
+  <div class="container hero__roof">
+    <RoofRule />
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: var(--space-2xl) var(--space-xl);
-    overflow: clip;
+    padding-top: var(--space-xs);
   }
 
-  .hero__grid {
+  .hero__wall {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: var(--space-xl);
-    align-items: center;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grout);
   }
 
-  .hero__copy h1 {
-    margin-block: var(--space-sm);
+  .hero__text {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    grid-column: 1 / 9;
+    grid-row: 1;
+    padding: clamp(1.75rem, 5vw, 4.5rem);
+    padding-right: clamp(1.75rem, 11vw, 9rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-md);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at 92% 8%, rgba(0, 152, 69, 0.5), transparent 42%),
+      radial-gradient(circle at 0% 100%, rgba(28, 93, 144, 0.65), transparent 55%),
+      var(--color-primary-dark);
   }
 
-  .hero__copy em {
-    font-style: italic;
-    color: var(--color-accent-dark);
+  .hero__text h1 {
+    color: #fff;
+    max-width: 15ch;
+  }
+
+  .hero__text .lede {
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 46ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
+    gap: var(--space-xs);
   }
 
-  .hero__meta {
-    margin-top: var(--space-md);
-    font-size: 0.875rem;
-    color: var(--color-ink-faint);
+  .hero__address {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.75);
   }
 
-  .hero__visual {
+  /* L'arco della foto "esce" dal pannello blu */
+  .hero__arch-wrap {
     position: relative;
-    aspect-ratio: 4 / 5;
+    grid-column: 8 / 13;
+    grid-row: 1;
+    z-index: 2;
+    align-self: center;
+    margin-left: -3rem;
   }
 
-  .hero__visual-main {
-    position: absolute;
-    inset: 0 8% 8% 0;
-    border-radius: var(--radius-lg);
+  .hero__photo {
+    position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
+    background: var(--color-paper-alt);
   }
 
-  .hero__visual-main :global(img) {
+  .hero__photo :global(img) {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .hero__visual-small {
+  .hero__photo--main {
+    box-shadow: var(--shadow-lg);
+    border: 8px solid var(--color-paper);
+    border-bottom-width: 8px;
+  }
+
+  .hero__badge {
     position: absolute;
-    right: -4%;
-    bottom: -6%;
-    width: 46%;
-    aspect-ratio: 1;
-    border-radius: var(--radius-md);
-    overflow: hidden;
+    left: -2.25rem;
+    bottom: 2.5rem;
+    display: grid;
+    place-content: center;
+    gap: 0.1em;
+    width: 8.5rem;
+    height: 8.5rem;
+    text-align: center;
+    background: var(--color-accent-dark);
+    color: #fff;
+    border-radius: 50%;
     border: 6px solid var(--color-paper);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
+    transform: rotate(-8deg);
   }
 
-  .hero__visual-small :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .hero__badge strong {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #fff;
+  }
+
+  .hero__badge span {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding-inline: 0.8em;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .hero__photo--side {
+    grid-column: span 4;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+  }
+
+  .hero__photo--lead {
+    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-xl);
+  }
+
+  .hero__roof {
+    margin-top: var(--space-md);
+    color: var(--color-primary);
   }
 
   @media (max-width: 900px) {
-    .hero__grid {
-      grid-template-columns: 1fr;
+    .hero__text {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      padding-right: clamp(1.75rem, 5vw, 4.5rem);
     }
 
-    .hero__visual {
+    .hero__arch-wrap {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      width: min(78%, 360px);
+      margin: calc(-1 * var(--space-lg)) auto 0;
+    }
+
+    .hero__badge {
+      left: -1rem;
+      bottom: 1.5rem;
+      width: 6.75rem;
+      height: 6.75rem;
+    }
+
+    .hero__badge strong {
+      font-size: 1.5rem;
+    }
+
+    .hero__badge span {
+      font-size: 0.6875rem;
+    }
+
+    .hero__photo--side {
+      grid-column: span 6;
       aspect-ratio: 1 / 1;
-      max-width: 420px;
-      margin-inline: auto;
-      margin-top: var(--space-md);
+    }
+
+    .hero__photo--lead {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 9;
     }
   }
 </style>

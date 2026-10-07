@@ -1,23 +1,20 @@
 ---
 import { Image } from 'astro:assets';
-import img from '@assets/showroom/edil-centro-showroom-01.jpg';
 import SectionHeading from '@components/ui/SectionHeading.astro';
+import { showroomPhoto } from '@data/showroom';
 import { whyUsPoints } from '@data/content';
+
+const photo = showroomPhoto('sala-consulenza-clienti');
 ---
 
 <section class="whyus section section--alt">
   <div class="container whyus__grid">
-    <div class="whyus__image" data-reveal data-reveal="scale">
-      <Image
-        src={img}
-        alt="Interno dello showroom Edil Centro con esposizione di rubinetteria e sanitari"
-        widths={[420, 640, 840]}
-        sizes="(max-width: 900px) 90vw, 42vw"
-      />
+    <div class="whyus__image leaf" data-reveal="fade">
+      <Image src={photo.image} alt={photo.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 44vw" />
     </div>
 
     <div class="whyus__copy">
-      <SectionHeading eyebrow="Perché sceglierci" title="Competenza, materiali selezionati, un unico interlocutore" />
+      <SectionHeading title="Competenza, materiali selezionati, un unico interlocutore" />
       <dl class="whyus__list">
         {
           whyUsPoints.map((point, index) => (
@@ -36,16 +33,15 @@ import { whyUsPoints } from '@data/content';
   .whyus__grid {
     display: grid;
     grid-template-columns: 0.9fr 1.1fr;
-    gap: var(--space-2xl);
-    align-items: center;
+    gap: var(--space-xl);
+    align-items: start;
   }
 
   .whyus__image {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-md));
     aspect-ratio: 4 / 5;
-    order: 2;
+    box-shadow: var(--shadow-lg);
   }
 
   .whyus__image :global(img) {
@@ -54,42 +50,34 @@ import { whyUsPoints } from '@data/content';
     object-fit: cover;
   }
 
-  .whyus__list {
-    display: grid;
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
-  }
-
   .whyus__item {
-    padding-left: var(--space-md);
-    border-left: 3px solid var(--color-accent);
+    padding-block: var(--space-md);
+    border-top: 1px solid var(--color-border-strong);
   }
 
   .whyus__item dt {
     font-family: var(--font-display);
-    font-size: 1.1875rem;
-    font-weight: 600;
-    margin-bottom: 0.3em;
+    font-weight: 700;
+    font-size: 1.375rem;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+    margin-bottom: 0.35em;
   }
 
   .whyus__item dd {
-    font-size: 0.9375rem;
     color: var(--color-ink-soft);
+    max-width: 56ch;
   }
 
   @media (max-width: 900px) {
     .whyus__grid {
       grid-template-columns: 1fr;
+      gap: var(--space-lg);
     }
 
     .whyus__image {
-      order: 1;
-      max-width: 420px;
-      margin-inline: auto;
-    }
-
-    .whyus__copy {
-      order: 2;
+      position: static;
+      aspect-ratio: 4 / 3;
     }
   }
 </style>

@@ -1,0 +1,105 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { faqItems } from '@data/content';
+---
+
+<section class="faq section">
+  <div class="container faq__grid">
+    <SectionHeading
+      title="Domande frequenti"
+      subtitle="Le risposte alle richieste che riceviamo più spesso. Per tutto il resto, chiamaci o passa in showroom."
+    />
+
+    <div class="faq__list">
+      {
+        faqItems.map((item) => (
+          <details class="faq__item">
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .faq__grid :global(.section-head) {
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-md));
+  }
+
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .faq__item {
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    padding-inline: var(--space-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq__item[open] {
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    min-height: 64px;
+    padding-block: var(--space-sm);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1875rem;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary::after {
+    content: '';
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    background:
+      linear-gradient(var(--color-accent-dark), var(--color-accent-dark)) center / 100% 2px no-repeat,
+      linear-gradient(var(--color-accent-dark), var(--color-accent-dark)) center / 2px 100% no-repeat;
+    transition: transform var(--transition-base);
+  }
+
+  .faq__item[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq__item p {
+    padding-bottom: var(--space-md);
+  }
+
+  @media (max-width: 900px) {
+    .faq__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .faq__grid :global(.section-head) {
+      position: static;
+    }
+  }
+</style>

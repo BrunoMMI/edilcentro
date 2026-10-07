@@ -16,18 +16,34 @@ const { title, description, path, image = '/og-default.jpg', noindex = false, ty
 const canonicalURL = new URL(path, SITE_URL).toString();
 const imageURL = new URL(image, SITE_URL).toString();
 const fullTitle = title.includes(seoDefaults.siteName) ? title : `${title} | ${seoDefaults.siteName}`;
+const isDefaultImage = image === '/og-default.jpg';
+const imageAlt = 'Edil Centro Srl, ceramiche, sanitari e arredo bagno a Pace del Mela';
 ---
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalURL} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="author" content={seoDefaults.siteName} />
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  )
+}
+
+<!-- Posizionamento geografico (SEO locale) -->
+<meta name="geo.region" content="IT-ME" />
+<meta name="geo.placename" content="Pace del Mela" />
 
 <meta property="og:type" content={type} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={imageURL} />
+<meta property="og:image:alt" content={imageAlt} />
+{isDefaultImage && <meta property="og:image:width" content="1200" />}
+{isDefaultImage && <meta property="og:image:height" content="630" />}
 <meta property="og:locale" content={seoDefaults.locale} />
 <meta property="og:site_name" content={seoDefaults.siteName} />
 
@@ -35,3 +51,4 @@ const fullTitle = title.includes(seoDefaults.siteName) ? title : `${title} | ${s
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image:alt" content={imageAlt} />

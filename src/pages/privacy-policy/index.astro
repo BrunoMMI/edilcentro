@@ -8,7 +8,7 @@ const breadcrumbs = [
   { name: 'Privacy Policy', url: '/privacy-policy/' },
 ];
 
-const LAST_UPDATED = '16 settembre 2026';
+const LAST_UPDATED = '7 ottobre 2026';
 ---
 
 <BaseLayout
@@ -17,7 +17,7 @@ const LAST_UPDATED = '16 settembre 2026';
   path="/privacy-policy/"
   breadcrumbs={breadcrumbs}
 >
-  <LegalLayout title="Privacy Policy" updated={LAST_UPDATED}>
+  <LegalLayout title="Privacy Policy" updated={LAST_UPDATED} breadcrumbs={breadcrumbs}>
     <p class="legal-note">
       Nota: alcuni dati societari (numero di iscrizione al Registro delle Imprese / P.IVA) non
       risultavano pubblicati sul sito precedente e non sono stati riportati per non rischiare di
@@ -52,18 +52,26 @@ const LAST_UPDATED = '16 settembre 2026';
       <a href="/cookie-policy/">Cookie Policy</a>.
     </p>
 
+    <h2>Hosting e dati di navigazione</h2>
+    <p>
+      Il sito è pubblicato sull'infrastruttura di Vercel Inc., che funge da fornitore di hosting.
+      Come avviene per qualsiasi sito web, i server possono registrare per brevi periodi dati
+      tecnici di connessione (ad esempio indirizzo IP, data e ora della richiesta, pagina
+      richiesta, tipo di browser) necessari a erogare il servizio e a garantirne la sicurezza.
+      Questi dati non vengono utilizzati da {companyLegalName} per profilare gli utenti.
+    </p>
+
     <h2>Servizi di terze parti</h2>
     <p>
       Nella pagina Contatti, solo su azione esplicita dell'utente (clic sul pulsante "Visualizza
-      la mappa"), può essere caricata una mappa incorporata fornita da Google Maps. Il
-      caricamento non avviene automaticamente al caricamento della pagina. Google LLC opera in
+      la mappa di Google"), può essere caricata una mappa incorporata fornita da Google Maps. Il
+      caricamento non avviene automaticamente all'apertura della pagina. Google LLC opera in
       qualità di titolare autonomo del trattamento per i dati raccolti tramite il proprio
       servizio: per maggiori informazioni si rimanda all'informativa privacy di Google.
     </p>
     <p>
-      Il sito carica inoltre i font Google Fonts (Fraunces, Inter) dai server di Google per la
-      visualizzazione della tipografia. Il caricamento dei font può comportare la connessione ai
-      server di Google Fonts secondo l'informativa privacy del servizio.
+      I caratteri tipografici (font) del sito sono ospitati direttamente sul nostro dominio: la
+      visualizzazione delle pagine non comporta connessioni a server di terzi per i font.
     </p>
 
     <h2>Base giuridica e finalità</h2>

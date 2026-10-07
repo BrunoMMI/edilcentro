@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { allBrands } from '@data/brands';
+---
+
+<section class="brands section">
+  <div class="container">
+    <div class="brands__head">
+      <SectionHeading
+        title="I marchi che scegliamo per te"
+        subtitle="Pavimenti, rivestimenti, sanitari, rubinetteria e arredo bagno dei principali produttori italiani ed europei."
+      />
+      <a href="/prodotti/" class="btn btn-secondary" data-reveal>Marchi per categoria</a>
+    </div>
+
+    <ul class="brands__grid" aria-label="Marchi trattati da Edil Centro">
+      {
+        allBrands.map((brand) => (
+          <li class="brand-tile">
+            <Image src={brand.logo} alt={brand.name} width={200} loading="lazy" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .brands__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  .brands__head :global(.section-head),
+  .brands__head > .btn {
+    margin-bottom: var(--space-lg);
+  }
+
+  .brands__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--grout);
+  }
+
+  .brand-tile {
+    display: grid;
+    place-items: center;
+    height: 96px;
+    padding: 14px 18px;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .brand-tile :global(img) {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 56px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 560px) {
+    .brands__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .brand-tile {
+      height: 84px;
+    }
+  }
+</style>

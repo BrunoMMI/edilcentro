@@ -21,7 +21,7 @@ dalla cartella `contenuti/` fornita dal titolare.
 - **@astrojs/sitemap** per la sitemap XML
 - CSS puro (variabili CSS, nessun framework tipo Tailwind/Bootstrap)
 - JavaScript vanilla per le interazioni (nessuna libreria frontend pesante)
-- Font: Google Fonts (Fraunces per i titoli, Inter per il corpo testo)
+- Font **self-hosted** in `public/fonts/` (Bricolage Grotesque per i titoli, Figtree per il corpo testo): nessuna richiesta a Google Fonts
 
 ## Commands
 
@@ -40,26 +40,25 @@ errori né warning.
 ```
 src/
   assets/          immagini sorgente (ottimizzate da astro:assets in fase di build)
-    brands/        loghi brand, organizzati per categoria prodotto
+    brands/        loghi brand, organizzati per gruppo (arredo-bagno, pavimenti-rivestimenti, rubinetteria, sanitari, termoarredo)
     ferramenta/     foto reparto ferramenta
-    logo/           logo aziendale (svg + png)
-    progetti/       render 3D bagni (prefisso "render-bagno-<stile>-NN")
-    showroom/       foto reali dello showroom
+    logo/           logo-full.svg (tetto + scritta + payoff), logo-wordmark.svg (scritta + rombo, usato nell'header), logo-edilcentro.svg (originale)
+    progetti/       render 3D bagni (prefisso "render-bagno-<stile>-NN"): SOLO per la pagina /progetti/
+    showroom/       21 foto reali del locale (edil-centro-showroom-<slug>.jpg, 2200px)
   components/
     contact/        MapEmbed (mappa Google Maps con caricamento on-click)
     cookie/         CookieConsent (banner + dialog preferenze)
     home/           sezioni della homepage (Hero, Intro, Services, WhyUs, ecc.)
     layout/         Header, Footer
     legal/          LegalLayout (wrapper tipografico per Privacy/Cookie Policy)
-    products/       CategorySection, CategoryJumpNav (pagina Prodotti)
-    projects/       ProjectGallery (galleria Progetti con filtro + lightbox)
+    products/       CategorySection, CategoryJumpNav (pagina Prodotti: testo + griglia loghi, nessuna foto)
     seo/            Seo.astro (meta tag, canonical, Open Graph)
-    ui/             componenti generici (SectionHeading, Breadcrumbs, PageHero)
+    ui/             SectionHeading, Breadcrumbs, PageHero (variante con foto), RoofRule, Gallery (galleria + lightbox, usata da Progetti e Showroom)
   data/             fonte di verità per tutti i contenuti (vedi sotto)
   layouts/          BaseLayout.astro (head, Header, Footer, CookieConsent, JSON-LD)
   lib/              schema.ts (helper per i dati strutturati Schema.org)
   pages/            una cartella per rotta (index, prodotti, progetti, ferramenta, contatti,
-                     privacy-policy, cookie-policy, 404)
+                     showroom, privacy-policy, cookie-policy, 404)
   scripts/          script client-side importati dai componenti (reveal, header, cookie-consent,
                      gallery, counters, map-embed)
   styles/           global.css (design system: variabili, reset, tipografia, utility)
@@ -75,12 +74,13 @@ contenuti/          materiale sorgente originale fornito dal titolare (foto alta
 - **CookieConsent.astro**: banner + `<dialog>` preferenze, categorie definite in
   `src/data/cookie-categories.ts` (oggi solo "necessari"). Logica in `cookie-consent.ts`,
   persistenza in `localStorage` (`edilcentro-cookie-consent`).
-- **ProjectGallery.astro**: griglia filtrabile per stile + lightbox accessibile (`<dialog>`,
-  navigazione con frecce, tasti ← →, Esc). Logica in `gallery.ts`.
+- **Gallery.astro**: griglia (con filtri opzionali per gruppo) + lightbox accessibile (`<dialog>`,
+  frecce, tasti ← →, Esc). Logica in `gallery.ts`; il filtro iniziale si può passare via hash
+  (`/progetti/#marmo`).
 - **MapEmbed.astro**: mostra una "facciata" con bottone; l'iframe di Google Maps viene creato
   solo al click (`map-embed.ts`), per non caricare contenuti di terze parti automaticamente.
-- **CategorySection.astro**: blocco per ogni categoria prodotto nella pagina `/prodotti/`
-  (immagine, descrizione, loghi brand collegati via `brandGroup`).
+- **CategorySection.astro**: blocco per ogni categoria in `/prodotti/` (descrizione + tutti i loghi
+  dei marchi collegati via `brandGroup`). Le categorie NON hanno foto.
 
 ## Content
 
@@ -89,16 +89,18 @@ pagine:
 
 - `site.ts` — ragione sociale, sedi (showroom + ferramenta), telefoni, email, social, anno di
   fondazione. **Unica fonte di verità per i dati di contatto.**
-- `categories.ts` — le 8 categorie prodotto (testi presi dal file `Categorie.docx` in
-  `contenuti/`), con immagine e riferimento al gruppo di brand.
+- `categories.ts` — le 8 categorie prodotto (testi dal file `Categorie.docx`), con riferimento al
+  gruppo di brand (nessuna immagine).
+- `showroom.ts` — elenco delle foto del locale con alt text; `showroomPhoto('slug')` le recupera.
 - `brands.ts` — carica automaticamente i loghi da `src/assets/brands/<gruppo>/` via
   `import.meta.glob` e ne deriva il nome dal filename.
 - `projects.ts` — carica i render da `src/assets/progetti/` via `import.meta.glob`, deriva stile
-  e alt-text dal filename.
+  e alt-text dal filename. **I render 3D vanno usati solo in `/progetti/`**, mai in home o altrove.
 - `content.ts` — servizi, punti "perché sceglierci", testimonianze, FAQ.
 - `ferramenta.ts` — settori merceologici e vantaggi del reparto ferramenta.
 - `nav.ts` — voci di navigazione principali e footer legale.
-- `cookie-categories.ts` — categorie cookie (estendibile in futuro).
+- `cookie-categories.ts` — categorie cookie con elenco degli strumenti (`items`): alimenta sia il
+  pannello preferenze sia la tabella della Cookie Policy.
 
 **Per modificare un testo, un numero di telefono, un orario o aggiungere un brand: modifica
 sempre il file in `src/data/`, mai il markup nei componenti/pagine.**
@@ -113,35 +115,48 @@ Per aggiungere nuovi render/progetti: copia il file in `src/assets/progetti/` co
 
 ## Styling
 
-Design system centralizzato in `src/styles/global.css`:
+Design system "Arco" in `src/styles/global.css`: forme morbide e moderne, ma con gli stessi colori del
+logo. Archi (`.arch`, finestra/specchio), forme "foglia" (`.leaf`, angoli opposti), pulsanti e
+chip a pillola, header fluttuante a pillola, pannelli a tutta larghezza che rientrano dai bordi
+(`--panel-inset`, `--radius-xl`), ombre profonde e delicate, sfumature blu/verde sui pannelli scuri.
+Evita di tornare a spigoli vivi o bordi netti: usa sempre i token `--radius-*`.
 
-- **Colori**: variabili `--color-*`, palette derivata dai colori del logo (blu `#1c5d90`, verde
-  `#009845`) reinterpretata con neutri caldi (cemento/pietra/ceramica).
-- **Tipografia**: `--font-display` (Fraunces, titoli) e `--font-body` (Inter, testo).
-- **Spaziatura**: scala `--space-3xs` → `--space-3xl`.
-- **Superfici**: `--radius-*`, `--shadow-*`.
-- **Container**: `--container-max` (1320px) e `--container-pad` (clamp responsive).
-- Ogni componente ha uno `<style>` scoped Astro; solo variabili/reset/utility globali vivono in
-  `global.css`.
-- Animazioni "reveal on scroll" via attributo `data-reveal` (+ `data-reveal-index` per lo
-  stagger) gestite da `src/scripts/reveal.ts`; rispettano `prefers-reduced-motion`.
+- **Colori**: variabili `--color-*`; blu `#1c5d90` e verde `#009845` del logo, navy `#0d2c46` per le
+  superfici scure, neutri freddi (porcellana/gres). Il verde per il testo è `--color-accent-dark`.
+- **Tipografia**: `--font-display` (Bricolage Grotesque, titoli in grassetto condensato) e
+  `--font-body` (Figtree). File woff2 in `public/fonts/` con `@font-face` in `global.css`.
+- **Griglie**: classe `.tile-grid` (gap = `--grout`, 14px) + moduli bianchi arrotondati con `--shadow-sm`.
+- **Logo**: header = `logo-wordmark.svg` (62px di altezza, 46px su mobile); footer = `logo-full.svg`
+  su riquadro bianco. Gli SVG sono ritagliati dall'originale (viewBox stretta).
+- Nessun "eyebrow" maiuscolo sopra i titoli: i titoli devono reggersi da soli.
+- Ogni componente ha uno `<style>` scoped Astro; solo variabili/reset/utility globali in `global.css`.
+- Animazioni "reveal on scroll" via `data-reveal` (+ `data-reveal-index`), `reveal.ts`; rispettano
+  `prefers-reduced-motion`.
+- Breakpoint usati: 1100px (griglie a 2 colonne), 1080px (menu mobile), 900px (impilamento),
+  560px (1 colonna / telefono).
 
 ⚠️ **Attenzione alla cascata**: il reset globale include `* { margin: 0 }` e regole su
 `[hidden]`/`dialog`. Se aggiungi un nuovo `<dialog>` o elementi con toggle `hidden`, verifica che
-non vengano sovrascritti da regole di componente con specificità uguale (vedi commit di fix per
-`[hidden]` e `dialog { margin: auto }` in questo file).
+non vengano sovrascritti da regole di componente con specificità uguale.
 
-## SEO
+## SEO e GEO
 
-- **Seo.astro**: title, meta description, canonical, Open Graph, Twitter Card. Ogni pagina passa
-  `title`, `description`, `path` a `BaseLayout`.
-- **Dati strutturati**: `src/lib/schema.ts` genera JSON-LD (Organization/LocalBusiness, WebSite,
-  BreadcrumbList). Iniettati in `BaseLayout.astro`. Nessuna recensione/rating fittizia nei dati
-  strutturati.
-- **Sitemap**: generata automaticamente da `@astrojs/sitemap` (`astro.config.mjs`). Dominio
-  configurato in `src/consts.ts` (`SITE_URL`) — **aggiorna questo valore prima del deploy**.
-- **robots.txt** e **llms.txt** in `public/`.
-- Un solo `<h1>` per pagina (nella hero/PageHero di ciascuna pagina).
+- **Seo.astro**: title, meta description, canonical, robots (`max-image-preview:large`), Open Graph,
+  Twitter Card, `geo.region`/`geo.placename` (IT-ME, Pace del Mela). Ogni pagina passa `title`,
+  `description`, `path` a `BaseLayout` (opzionali `image`, `breadcrumbs`, `jsonLd`).
+- **Dati strutturati** (`src/lib/schema.ts`, iniettati da `BaseLayout`): showroom come
+  `HomeAndConstructionBusiness`/`Store` (catalogo `hasOfferCatalog`, `areaServed`, `foundingDate`),
+  Ferramenta come `HardwareStore` con `openingHoursSpecification`, `WebSite`, `BreadcrumbList`;
+  `FAQPage` in home; `CollectionPage`/`ImageGallery` in Prodotti, Progetti, Showroom.
+  Nessuna recensione/rating fittizio e nessuna coordinata geografica non verificata.
+- **Sitemap**: `@astrojs/sitemap` genera `sitemap-index.xml` + `sitemap-0.xml`. Dominio in
+  `src/consts.ts` (`SITE_URL`): **aggiornalo prima del deploy** (anche in `public/robots.txt`).
+- **robots.txt** ammette esplicitamente i crawler AI (GPTBot, ClaudeBot, PerplexityBot, ecc.).
+- **llms.txt** (`public/llms.txt`): riassunto per i motori generativi (sedi, orari, marchi, pagine).
+  Tienilo allineato a `src/data/` quando cambiano contatti, orari o marchi.
+- `og-default.jpg` (1200x630) e `logo.png` (512x512) in `public/`.
+- Un solo `<h1>` per pagina (nella hero/PageHero), meta description univoca, breadcrumb coerenti.
+- `vercel.json`: header di sicurezza e cache dei font.
 
 ## Cookie System
 
@@ -150,14 +165,20 @@ non vengano sovrascritti da regole di componente con specificità uguale (vedi c
   aggiungere una categoria qui la rende automaticamente visibile nel dialog e nella tabella della
   Cookie Policy — **non attivare mai uno script di terze parti prima che l'utente abbia dato
   consenso esplicito per la relativa categoria**.
-- Stato persistito in `localStorage` sotto la chiave `edilcentro-cookie-consent`.
-- Il link "Gestisci preferenze cookie" nel footer riapre il pannello in qualsiasi momento.
+- Stato persistito in `localStorage` sotto la chiave `edilcentro-cookie-consent` (elencata in
+  `cookie-categories.ts` e quindi nella Cookie Policy).
+- Il link "Preferenze cookie" nel footer (e il pulsante nella Cookie Policy) riapre il pannello.
+- Banner: "Accetta tutti" e "Solo necessari" hanno lo stesso peso visivo.
+- I font sono self-hosted e la mappa Google si carica solo al click: se aggiungi servizi di terze
+  parti aggiorna Privacy Policy e Cookie Policy.
 
 ## Images
 
 - Le immagini sorgente processate vivono in `src/assets/` e vengono ottimizzate automaticamente
   da `astro:assets` (formati moderni, `widths`/`sizes` responsive, lazy loading di default tranne
   dove `loading="eager"` è esplicitamente richiesto, es. hero above-the-fold).
+- Le foto del locale in `src/assets/showroom/` sono già ridimensionate a 2200px (JPEG q80) dagli
+  originali di `contenuti/Foto Locale Edil Centro srl/`.
 - **Non forzare `width` e `height` insieme su un'immagine con aspect ratio sconosciuto/variabile**
   (es. loghi brand): Astro ridimensiona forzando quelle proporzioni esatte, causando crop
   indesiderati. Specifica solo `height` (o solo `width`) e lascia che Astro calcoli l'altro lato

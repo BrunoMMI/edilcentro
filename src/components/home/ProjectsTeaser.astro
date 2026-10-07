@@ -1,0 +1,88 @@
+---
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { projectStyles } from '@data/projects';
+---
+
+<section class="teaser section">
+  <div class="container">
+    <div class="teaser__head">
+      <SectionHeading
+        title="Bagni pensati, prima ancora di essere costruiti"
+        subtitle="Cinque stili, un metodo: render 3D fotorealistici per visualizzare ogni ambiente prima dei lavori. Li trovi nella sezione Progetti."
+      />
+      <a href="/progetti/" class="btn btn-primary" data-reveal>Vai ai progetti</a>
+    </div>
+
+    <ul class="teaser__styles tile-grid">
+      {
+        projectStyles.map((style, index) => (
+          <li data-reveal data-reveal-index={index}>
+            <a href={`/progetti/#${style.slug}`} class="style-tile">
+              <h3>{style.label}</h3>
+              <p>{style.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .teaser__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  .teaser__head :global(.section-head),
+  .teaser__head > .btn {
+    margin-bottom: var(--space-lg);
+  }
+
+  .teaser__styles {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .teaser__styles li {
+    display: flex;
+  }
+
+  .style-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    transition: background-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .style-tile p {
+    font-size: 0.9375rem;
+  }
+
+  .style-tile:hover {
+    background: var(--color-accent-light);
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: 1100px) {
+    .teaser__styles {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .teaser__styles li:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .teaser__styles {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

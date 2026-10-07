@@ -1,18 +1,25 @@
 ---
+import { Image } from 'astro:assets';
 import { mainLocation } from '@data/site';
+import { showroomPhoto } from '@data/showroom';
+
+const bg = showroomPhoto('showroom-ceramiche-e-cucine');
 ---
 
 <section class="cta">
-  <div class="container cta__inner" data-reveal>
+  <div class="cta__bg" aria-hidden="true">
+    <Image src={bg.image} alt="" widths={[720, 1200, 1800]} sizes="100vw" loading="lazy" />
+  </div>
+  <div class="container cta__inner">
     <div class="cta__copy">
       <h2>Hai in mente un progetto? Parliamone in showroom.</h2>
       <p class="lede">
-        Vieni a trovarci a Pace del Mela per una consulenza gratuita, oppure contattaci per
-        richiedere informazioni su prodotti, disponibilità e render 3D.
+        Vieni a trovarci a Pace del Mela per una consulenza, oppure contattaci per informazioni su prodotti,
+        disponibilità e render 3D.
       </p>
     </div>
     <div class="cta__actions">
-      <a href="/contatti/" class="btn btn-primary">Richiedi un preventivo</a>
+      <a href="/contatti/" class="btn btn-light">Richiedi un preventivo</a>
       <a href={mainLocation.phoneHref} class="btn btn-outline-light">Chiama {mainLocation.phone}</a>
     </div>
   </div>
@@ -20,33 +27,67 @@ import { mainLocation } from '@data/site';
 
 <style>
   .cta {
-    background: var(--color-accent-dark);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: var(--space-2xl) var(--panel-inset) var(--panel-inset);
+    padding-block: var(--space-2xl);
+    border-radius: var(--radius-xl);
     color: #fff;
-    padding-block: var(--space-xl);
+  }
+
+  .cta__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .cta__bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, rgba(13, 44, 70, 0.95) 30%, rgba(13, 44, 70, 0.7));
   }
 
   .cta__inner {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-lg);
-    flex-wrap: wrap;
   }
 
-  .cta__copy h2 {
+  .cta__copy {
+    max-width: 38rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .cta h2 {
     color: #fff;
-    max-width: 22ch;
   }
 
-  .cta__copy .lede {
-    color: rgba(255, 255, 255, 0.82);
-    margin-top: var(--space-sm);
-    max-width: 46ch;
+  .cta .lede {
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .cta__actions {
     display: flex;
-    gap: var(--space-sm);
     flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  @media (max-width: 560px) {
+    .cta__actions,
+    .cta__actions .btn {
+      width: 100%;
+    }
   }
 </style>

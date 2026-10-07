@@ -9,7 +9,7 @@ const breadcrumbs = [
   { name: 'Cookie Policy', url: '/cookie-policy/' },
 ];
 
-const LAST_UPDATED = '16 settembre 2026';
+const LAST_UPDATED = '7 ottobre 2026';
 ---
 
 <BaseLayout
@@ -18,7 +18,7 @@ const LAST_UPDATED = '16 settembre 2026';
   path="/cookie-policy/"
   breadcrumbs={breadcrumbs}
 >
-  <LegalLayout title="Cookie Policy" updated={LAST_UPDATED}>
+  <LegalLayout title="Cookie Policy" updated={LAST_UPDATED} breadcrumbs={breadcrumbs}>
     <h2>Cosa sono i cookie</h2>
     <p>
       I cookie sono piccoli file di testo che i siti visitati inviano al browser dell'utente,
@@ -30,33 +30,47 @@ const LAST_UPDATED = '16 settembre 2026';
 
     <h2>Cookie utilizzati da questo sito</h2>
     <p>
-      Il sito di {companyLegalName} utilizza esclusivamente cookie tecnici, necessari al
-      funzionamento del sito stesso. <strong>Non vengono utilizzati cookie di analisi statistica
+      Il sito di {companyLegalName} utilizza esclusivamente strumenti tecnici, necessari al
+      funzionamento del sito stesso (nello specifico una voce di memoria locale del browser, indicata
+      nella tabella qui sotto). <strong>Non vengono utilizzati cookie di analisi statistica
       (analytics) né cookie di profilazione o marketing.</strong> Per questo motivo il banner
       cookie non richiede un consenso attivo per le categorie non necessarie: semplicemente,
       quelle categorie non sono presenti.
     </p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Categoria</th>
-          <th>Descrizione</th>
-          <th>Consenso richiesto</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          cookieCategories.map((category) => (
-            <tr>
-              <td>{category.title}</td>
-              <td>{category.description}</td>
-              <td>{category.required ? 'No (indispensabili)' : 'Sì'}</td>
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
+    <h2>Elenco degli strumenti utilizzati</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Nome</th>
+            <th>Finalità</th>
+            <th>Durata</th>
+            <th>Consenso</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            cookieCategories.flatMap((category) =>
+              category.items.map((item) => (
+                <tr>
+                  <td>{category.title}</td>
+                  <td>
+                    <code>{item.name}</code>
+                    <br />
+                    <small>{item.storage}, {item.provider}</small>
+                  </td>
+                  <td>{item.purpose}</td>
+                  <td>{item.duration}</td>
+                  <td>{category.required ? 'Non richiesto (indispensabile)' : 'Richiesto'}</td>
+                </tr>
+              )),
+            )
+          }
+        </tbody>
+      </table>
+    </div>
 
     <p class="legal-note">
       L'architettura del sito è già predisposta per accogliere, in futuro, categorie aggiuntive
@@ -80,6 +94,10 @@ const LAST_UPDATED = '16 settembre 2026';
       disattivare i cookie direttamente dalle impostazioni del tuo browser: tieni presente che
       disabilitare i cookie tecnici necessari potrebbe compromettere il corretto funzionamento
       del sito.
+    </p>
+
+    <p class="legal-actions">
+      <button type="button" class="btn btn-primary" data-cookie-settings>Apri le preferenze cookie</button>
     </p>
 
     <h2>Contatti</h2>

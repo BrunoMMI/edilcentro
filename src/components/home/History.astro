@@ -1,27 +1,32 @@
 ---
+import { Image } from 'astro:assets';
 import { yearsOfActivity, foundedYear } from '@data/site';
 import { allBrands } from '@data/brands';
 import { categories } from '@data/categories';
+import { showroomPhoto } from '@data/showroom';
 
+const bg = showroomPhoto('galleria-coperta-showroom');
 const brandCount = Math.floor(allBrands.length / 5) * 5;
 
 const stats = [
-  { value: yearsOfActivity, suffix: '+', label: 'Anni di attività, dal ' + foundedYear },
-  { value: brandCount, suffix: '+', label: 'Brand partner selezionati' },
-  { value: categories.length, suffix: '', label: 'Categorie di prodotto in showroom' },
-  { value: 2, suffix: '', label: 'Sedi a Pace del Mela: showroom e ferramenta' },
+  { value: yearsOfActivity, suffix: '+', label: 'anni di attività, dal ' + foundedYear },
+  { value: brandCount, suffix: '+', label: 'marchi selezionati' },
+  { value: categories.length, suffix: '', label: 'categorie di prodotto in showroom' },
+  { value: 2, suffix: '', label: 'sedi a Pace del Mela: showroom e ferramenta' },
 ];
 ---
 
 <section class="history section section--dark">
+  <div class="history__bg" aria-hidden="true">
+    <Image src={bg.image} alt="" widths={[720, 1200, 1800]} sizes="100vw" />
+  </div>
   <div class="container history__grid">
     <div class="history__copy" data-reveal>
-      <p class="eyebrow">Mezzo secolo di esperienza</p>
       <h2>Una storia che continua dal {foundedYear}</h2>
       <p class="lede">
-        Da oltre {yearsOfActivity} anni Edil Centro affianca famiglie e imprese della provincia di
-        Messina nella scelta di materiali per l'edilizia e l'arredo bagno, con la stessa cura per
-        il dettaglio che ha caratterizzato l'attività fin dagli esordi come Ceramiche Valenti.
+        Da oltre {yearsOfActivity} anni Edil Centro affianca famiglie e imprese della provincia di Messina nella
+        scelta di materiali per l'edilizia e l'arredo bagno, con la stessa cura per il dettaglio che ha
+        caratterizzato l'attività fin dagli esordi come Ceramiche Valenti.
       </p>
     </div>
 
@@ -30,7 +35,7 @@ const stats = [
         stats.map((stat, index) => (
           <div class="stat" data-reveal data-reveal-index={index}>
             <dt>
-              <span data-counter={stat.value}>0</span>{stat.suffix}
+              <span data-counter={stat.value}>{stat.value}</span>{stat.suffix}
             </dt>
             <dd>{stat.label}</dd>
           </div>
@@ -45,47 +50,79 @@ const stats = [
 </script>
 
 <style>
-  .history__grid {
-    display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: var(--space-2xl);
-    align-items: center;
+  .history {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
 
-  .history__copy .lede {
-    margin-top: var(--space-sm);
+  .history__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .history__bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .history__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, rgba(13, 44, 70, 0.96) 25%, rgba(13, 44, 70, 0.82));
+  }
+
+  .history__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: var(--space-xl);
+    align-items: center;
   }
 
   .history__stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
+    gap: var(--grout);
+  }
+
+  .stat {
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-lg);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
   }
 
   .stat dt {
     font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4vw, 3.25rem);
-    font-weight: 600;
+    font-weight: 800;
+    font-stretch: 94%;
+    font-size: clamp(2.75rem, 5vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
     color: #fff;
   }
 
   .stat dd {
-    margin-top: 0.35em;
-    font-size: 0.875rem;
-    color: rgba(243, 241, 236, 0.7);
-    max-width: 22ch;
+    margin-top: var(--space-xs);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
   }
 
   @media (max-width: 900px) {
     .history__grid {
       grid-template-columns: 1fr;
+      gap: var(--space-lg);
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 420px) {
     .history__stats {
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-md);
+      grid-template-columns: 1fr;
     }
   }
 </style>

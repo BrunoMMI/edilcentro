@@ -2,7 +2,7 @@
 import { categories } from '@data/categories';
 ---
 
-<nav class="jump-nav" aria-label="Salta a categoria di prodotto">
+<nav class="jump-nav" aria-label="Vai alla categoria di prodotto">
   <ul>
     {
       categories.map((cat) => (
@@ -19,9 +19,7 @@ import { categories } from '@data/categories';
     position: sticky;
     top: var(--header-height);
     z-index: 20;
-    background: rgba(247, 245, 241, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-paper);
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -32,24 +30,33 @@ import { categories } from '@data/categories';
 
   .jump-nav ul {
     display: flex;
-    gap: var(--space-md);
-    padding: var(--space-sm) var(--container-pad);
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--container-pad);
     width: max-content;
     min-width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+
+  .jump-nav li {
+    flex-shrink: 0;
   }
 
   .jump-nav a {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-ink-soft);
+    display: block;
+    padding: 0.6em 1em;
+    min-height: 44px;
+    font-weight: 650;
+    color: var(--color-primary-dark);
     white-space: nowrap;
-    padding-block: 0.3em;
-    border-bottom: 2px solid transparent;
-    transition: color var(--transition-base), border-color var(--transition-base);
+    background: var(--color-surface);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-base), color var(--transition-base);
   }
 
   .jump-nav a:hover {
-    color: var(--color-primary);
-    border-color: var(--color-accent);
+    background: var(--color-primary-dark);
+    color: #fff;
   }
 </style>

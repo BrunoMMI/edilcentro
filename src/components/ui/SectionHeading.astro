@@ -1,17 +1,15 @@
 ---
 interface Props {
-  eyebrow?: string;
   title: string;
   subtitle?: string;
   align?: 'left' | 'center';
   as?: 'h1' | 'h2' | 'h3';
 }
 
-const { eyebrow, title, subtitle, align = 'left', as: Tag = 'h2' }: Props = Astro.props;
+const { title, subtitle, align = 'left', as: Tag = 'h2' }: Props = Astro.props;
 ---
 
 <div class:list={['section-head', { 'section-head--center': align === 'center' }]} data-reveal>
-  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <Tag set:html={title} />
   {subtitle && <p class="lede section-head__subtitle">{subtitle}</p>}
 </div>

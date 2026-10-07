@@ -1,4 +1,35 @@
+# Edil Centro Srl — robots.txt
+# Il sito è pubblico: motori di ricerca e assistenti AI possono indicizzarlo e citarlo.
+
 User-agent: *
+Allow: /
+
+# Crawler di assistenti AI / motori generativi (ammessi esplicitamente)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://www.edilcentrosrl.it/sitemap-index.xml

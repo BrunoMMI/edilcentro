@@ -1,33 +1,51 @@
 /* ==========================================================================
-   Edil Centro — Design system
-   Palette derivata dai colori del logo aziendale (blu #1c5d90, verde #009845)
-   reinterpretata con neutri caldi ispirati a cemento, pietra e ceramica.
+   Edil Centro — Design system "Arco"
+   Colori del logo (blu #1c5d90, verde #009845) su neutri freddi da porcellana.
+   Il linguaggio visivo è quello degli ambienti bagno: archi, forme morbide e
+   pastiglie arrotondate, luce diffusa, ombre profonde e delicate.
    ========================================================================== */
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/bricolage-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-stretch: 75% 100%;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/figtree-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   color-scheme: light;
 
-  /* --- Colore: neutri ------------------------------------------------- */
-  --color-paper: #f7f5f1;
-  --color-paper-alt: #efe9e0;
+  /* --- Colore: neutri (porcellana / gres) ------------------------------ */
+  --color-paper: #f2f5f4;
+  --color-paper-alt: #e6ebea;
   --color-surface: #ffffff;
-  --color-border: #e3ddd2;
-  --color-border-strong: #cdc4b4;
-  --color-ink: #201d19;
-  --color-ink-soft: #524c44;
-  --color-ink-faint: #85796a;
+  --color-border: #d3dbda;
+  --color-border-strong: #aebaba;
+  --color-ink: #10212e;
+  --color-ink-soft: #3f505d;
+  --color-ink-faint: #5f707c;
 
   /* --- Colore: brand ---------------------------------------------------- */
   --color-primary: #1c5d90;
-  --color-primary-dark: #12354f;
-  --color-primary-light: #e8f0f6;
-  --color-accent: #0f8a46;
-  --color-accent-dark: #0b6934;
-  --color-accent-light: #e6f4ea;
+  --color-primary-dark: #0d2c46;
+  --color-primary-light: #e3edf5;
+  --color-accent: #009845;
+  --color-accent-dark: #00733a;
+  --color-accent-light: #def2e6;
 
   /* --- Tipografia --------------------------------------------------- */
-  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
-  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Figtree', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
   /* --- Spaziatura ----------------------------------------------------- */
   --space-3xs: 0.25rem;
@@ -37,26 +55,39 @@
   --space-md: 1.5rem;
   --space-lg: 2.5rem;
   --space-xl: 4rem;
-  --space-2xl: 6rem;
+  --space-2xl: clamp(3.5rem, 8vw, 6.5rem);
   --space-3xl: 9rem;
 
-  /* --- Superfici ------------------------------------------------------- */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 28px;
+  /* --- Superfici: forme morbide, archi, pastiglie ---------------------- */
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 30px;
+  --radius-xl: 44px;
   --radius-full: 999px;
 
-  --shadow-sm: 0 1px 2px rgba(32, 29, 25, 0.06), 0 1px 1px rgba(32, 29, 25, 0.04);
-  --shadow-md: 0 12px 24px -12px rgba(32, 29, 25, 0.22);
-  --shadow-lg: 0 30px 60px -20px rgba(32, 29, 25, 0.3);
+  /* Spazio tra i moduli */
+  --grout: 14px;
 
-  --container-max: 1320px;
-  --container-pad: clamp(1.25rem, 4vw, 3rem);
+  --shadow-sm: 0 2px 6px rgba(13, 44, 70, 0.07);
+  --shadow-md: 0 18px 36px -20px rgba(13, 44, 70, 0.4);
+  --shadow-lg: 0 40px 70px -30px rgba(13, 44, 70, 0.5);
 
-  --transition-base: 240ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Pannelli a tutta larghezza: rientrano dai bordi con angoli morbidi */
+  --panel-inset: clamp(0.5rem, 1.6vw, 1.25rem);
 
-  --header-height: 84px;
+  --container-max: 1360px;
+  --container-pad: clamp(1rem, 4vw, 3rem);
+
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  --header-height: 112px;
+}
+
+@media (max-width: 1080px) {
+  :root {
+    --header-height: 92px;
+  }
 }
 
 /* ==========================================================================
@@ -76,17 +107,19 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
 }
 
 body {
   min-height: 100svh;
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.0625rem;
+  line-height: 1.65;
   color: var(--color-ink);
   background: var(--color-paper);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 img,
@@ -162,40 +195,49 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.022em;
   color: var(--color-ink);
+  text-wrap: balance;
 }
 
 h1 {
-  font-size: clamp(2.5rem, 4.6vw, 4.25rem);
+  font-size: clamp(2.375rem, 5.2vw, 4.5rem);
+  font-weight: 800;
+  font-stretch: 94%;
+  letter-spacing: -0.032em;
 }
 
 h2 {
-  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-size: clamp(1.875rem, 3.6vw, 3.125rem);
+  font-stretch: 96%;
 }
 
 h3 {
-  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  letter-spacing: -0.015em;
 }
 
 h4 {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
+  letter-spacing: -0.005em;
 }
 
 p {
   color: var(--color-ink-soft);
+  max-width: 68ch;
+  text-wrap: pretty;
 }
 
 .lede {
-  font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+  font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
   line-height: 1.6;
   color: var(--color-ink-soft);
 }
 
 strong {
-  font-weight: 600;
+  font-weight: 650;
   color: var(--color-ink);
 }
 
@@ -220,15 +262,19 @@ strong {
 
 .section--alt {
   background: var(--color-paper-alt);
+  margin-inline: var(--panel-inset);
+  border-radius: var(--radius-xl);
 }
 
 .section--dark {
   background: var(--color-primary-dark);
-  color: #f3f1ec;
+  color: #eef3f6;
+  margin-inline: var(--panel-inset);
+  border-radius: var(--radius-xl);
 }
 
 .section--dark p {
-  color: rgba(243, 241, 236, 0.78);
+  color: rgba(238, 243, 246, 0.8);
 }
 
 .section--dark h2,
@@ -237,39 +283,18 @@ strong {
 }
 
 .section-head {
-  max-width: 42rem;
+  max-width: 46rem;
   margin-bottom: var(--space-lg);
 }
 
 .section-head--center {
-  max-width: 38rem;
+  max-width: 40rem;
   margin-inline: auto;
   text-align: center;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.8125rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-accent-dark);
-  margin-bottom: var(--space-sm);
-}
-
-.eyebrow::before {
-  content: '';
-  width: 1.75rem;
-  height: 2px;
-  background: currentColor;
-  display: inline-block;
-}
-
-.section--dark .eyebrow {
-  color: #8fd6ac;
+.section-head--center p {
+  margin-inline: auto;
 }
 
 .visually-hidden {
@@ -288,7 +313,7 @@ strong {
   position: absolute;
   top: -100%;
   left: var(--space-sm);
-  z-index: 200;
+  z-index: 400;
   background: var(--color-primary-dark);
   color: #fff;
   padding: 0.75em 1.25em;
@@ -303,7 +328,41 @@ strong {
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 3px;
-  border-radius: 4px;
+}
+
+.section--dark :focus-visible,
+.footer :focus-visible {
+  outline-color: #7fd9a6;
+}
+
+/* ==========================================================================
+   Moduli "piastrella": griglia con fuga
+   ========================================================================== */
+
+.tile-grid {
+  display: grid;
+  gap: var(--grout);
+}
+
+.tile {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+}
+
+/* Forme: arco (finestra/specchio), foglia (angoli opposti) */
+.arch {
+  aspect-ratio: 4 / 5;
+  border-radius: 50% 50% var(--radius-lg) var(--radius-lg) / 40% 40% var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+}
+
+.leaf {
+  border-radius: 150px var(--radius-lg) 150px var(--radius-lg);
+  overflow: hidden;
+}
+
+.leaf--alt {
+  border-radius: var(--radius-lg) 150px var(--radius-lg) 150px;
 }
 
 /* ==========================================================================
@@ -315,15 +374,16 @@ strong {
   align-items: center;
   justify-content: center;
   gap: 0.6em;
-  padding: 0.9em 1.6em;
-  font-weight: 600;
-  font-size: 0.9375rem;
+  padding: 0.85em 1.7em;
+  font-weight: 650;
+  font-size: 1rem;
+  line-height: 1.2;
   border-radius: var(--radius-full);
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   transition: background-color var(--transition-base), color var(--transition-base),
     border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
-  white-space: nowrap;
-  min-height: 44px;
+  min-height: 50px;
+  text-align: center;
 }
 
 .btn:active {
@@ -331,61 +391,66 @@ strong {
 }
 
 .btn-primary {
-  background: var(--color-accent);
+  background: var(--color-accent-dark);
   color: #fff;
-  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-  background: var(--color-accent-dark);
-  box-shadow: var(--shadow-md);
+  background: #005c2e;
+  box-shadow: 0 12px 24px -12px rgba(0, 115, 58, 0.7);
 }
 
 .btn-secondary {
-  background: var(--color-surface);
+  background: transparent;
   color: var(--color-primary-dark);
-  border-color: var(--color-border-strong);
+  border-color: var(--color-primary-dark);
 }
 
 .btn-secondary:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  background: var(--color-primary-dark);
+  color: #fff;
 }
 
 .btn-outline-light {
   background: transparent;
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 .btn-outline-light:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #fff;
+  background: #fff;
+  color: var(--color-primary-dark);
+}
+
+.btn-light {
+  background: #fff;
+  color: var(--color-primary-dark);
+}
+
+.btn-light:hover {
+  background: var(--color-accent-light);
 }
 
 .btn-sm {
-  padding: 0.7em 1.25em;
-  font-size: 0.875rem;
-  min-height: 38px;
+  padding: 0.65em 1.15em;
+  font-size: 0.9375rem;
+  min-height: 44px;
 }
 
 /* ==========================================================================
-   Reveal on scroll (rispetta prefers-reduced-motion)
+   Reveal on scroll: un solo gesto, sobrio (rispetta prefers-reduced-motion)
    ========================================================================== */
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity var(--transition-slow), transform var(--transition-slow);
+  transform: translateY(14px);
+  transition: opacity 500ms ease, transform 500ms ease;
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-[data-reveal='fade'] {
-  transform: none;
-}
-
+[data-reveal='fade'],
 [data-reveal='scale'] {
-  transform: scale(0.96);
+  transform: none;
 }
 
 [data-reveal].is-visible {
@@ -401,29 +466,28 @@ strong {
 }
 
 /* ==========================================================================
-   Marquee (brand)
-   ========================================================================== */
-
-@keyframes marquee-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* ==========================================================================
    Misc
    ========================================================================== */
 
 ::selection {
   background: var(--color-accent-light);
-  color: var(--color-accent-dark);
+  color: var(--color-primary-dark);
 }
 
 .card-surface {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+}
+
+/* Il "tetto" del logo (doppia linea blu + verde) usato come filo conduttore */
+.roof-rule {
+  display: block;
+  width: 100%;
+  height: 22px;
+  color: var(--color-primary);
+}
+
+.roof-rule path:last-child {
+  stroke: var(--color-accent);
 }

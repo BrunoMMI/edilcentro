@@ -10,21 +10,30 @@ const locations = [
 
 <section class="contact-strip section section--alt">
   <div class="container">
-    <SectionHeading eyebrow="Vieni a trovarci" title="Due sedi a Pace del Mela" align="center" />
+    <SectionHeading title="Due sedi a Pace del Mela" subtitle="Lo showroom e il reparto Ferramenta, entrambi a Pace del Mela." />
 
-    <div class="contact-strip__grid">
+    <div class="contact-strip__grid tile-grid">
       {
         locations.map((loc, index) => (
           <div class="contact-card" data-reveal data-reveal-index={index}>
-            <span class="contact-card__tag">{loc.tag}</span>
             <h3>{loc.name}</h3>
             <p>{loc.description}</p>
             <address>
               {loc.street}<br />
               {loc.cap} {loc.city} ({loc.province})
             </address>
+            {loc.hours && (
+              <ul class="contact-card__hours">
+                {loc.hours.map((slot) => (
+                  <li>
+                    <span>{slot.days}</span>
+                    <span>{slot.time}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div class="contact-card__actions">
-              <a href={loc.phoneHref} class="btn btn-secondary btn-sm">Chiama {loc.phone}</a>
+              <a href={loc.phoneHref} class="btn btn-primary btn-sm">Chiama {loc.phone}</a>
               <a href={loc.mapsHref} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
                 Indicazioni
               </a>
@@ -38,56 +47,51 @@ const locations = [
 
 <style>
   .contact-strip__grid {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-md);
   }
 
   .contact-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-md);
     padding: var(--space-lg);
-  }
-
-  .contact-card__tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-accent-dark);
-    background: var(--color-accent-light);
-    padding: 0.3em 0.7em;
-    border-radius: var(--radius-full);
-    margin-bottom: var(--space-sm);
-  }
-
-  .contact-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.3em;
-  }
-
-  .contact-card > p {
-    font-size: 0.9375rem;
-    margin-bottom: var(--space-sm);
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
   }
 
   .contact-card address {
     font-style: normal;
+    font-weight: 600;
+    color: var(--color-ink);
+    line-height: 1.6;
+    margin-top: var(--space-2xs);
+  }
+
+  .contact-card__hours {
     font-size: 0.9375rem;
     color: var(--color-ink-soft);
-    line-height: 1.6;
-    margin-bottom: var(--space-md);
+  }
+
+  .contact-card__hours li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-sm);
+    padding-block: 0.3em;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .contact-card__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6em;
+    gap: var(--space-xs);
+    margin-top: auto;
+    padding-top: var(--space-sm);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 800px) {
     .contact-strip__grid {
       grid-template-columns: 1fr;
     }

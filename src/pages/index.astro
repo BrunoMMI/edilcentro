@@ -3,32 +3,39 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/home/Hero.astro';
 import Intro from '@components/home/Intro.astro';
 import CategoriesShowcase from '@components/home/CategoriesShowcase.astro';
+import ShowroomStrip from '@components/home/ShowroomStrip.astro';
 import Services from '@components/home/Services.astro';
 import WhyUs from '@components/home/WhyUs.astro';
 import History from '@components/home/History.astro';
-import ProjectsPreview from '@components/home/ProjectsPreview.astro';
+import ProjectsTeaser from '@components/home/ProjectsTeaser.astro';
 import FerramentaPreview from '@components/home/FerramentaPreview.astro';
-import BrandsMarquee from '@components/home/BrandsMarquee.astro';
+import BrandsGrid from '@components/home/BrandsGrid.astro';
 import Testimonials from '@components/home/Testimonials.astro';
-import CtaBanner from '@components/home/CtaBanner.astro';
+import Faq from '@components/home/Faq.astro';
 import ContactStrip from '@components/home/ContactStrip.astro';
+import CtaBanner from '@components/home/CtaBanner.astro';
+import { faqSchema } from '@lib/schema';
+import { faqItems } from '@data/content';
 ---
 
 <BaseLayout
-  title="Edil Centro Srl — Materiali edili, ceramiche e arredo bagno a Pace del Mela"
-  description="Edil Centro: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria e ferramenta a Pace del Mela (ME). Dal 1969, consulenza in showroom e render 3D su misura."
+  title="Edil Centro Srl — Ceramiche, sanitari e arredo bagno a Pace del Mela (ME)"
+  description="Edil Centro a Pace del Mela (Messina): showroom di pavimenti, rivestimenti, sanitari, arredo bagno e rubinetteria, più reparto ferramenta. Dal 1969, consulenza e render 3D su misura."
   path="/"
+  jsonLd={[faqSchema(faqItems)]}
 >
   <Hero />
   <Intro />
   <CategoriesShowcase />
+  <ShowroomStrip />
   <Services />
   <WhyUs />
   <History />
-  <ProjectsPreview />
+  <ProjectsTeaser />
   <FerramentaPreview />
-  <BrandsMarquee />
+  <BrandsGrid />
   <Testimonials />
+  <Faq />
   <ContactStrip />
   <CtaBanner />
 </BaseLayout>

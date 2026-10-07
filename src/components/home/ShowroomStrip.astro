@@ -1,0 +1,107 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeading from '@components/ui/SectionHeading.astro';
+import { showroomPhoto } from '@data/showroom';
+
+const photos = [
+  showroomPhoto('galleria-coperta-cotto-e-legno'),
+  showroomPhoto('corridoio-lastre-gres'),
+  showroomPhoto('rivestimenti-decorati-floreali'),
+  showroomPhoto('espositore-casalgrande-padana'),
+  showroomPhoto('sala-pavimenti-decorati'),
+];
+---
+
+<section class="strip section">
+  <div class="container">
+    <div class="strip__head">
+      <SectionHeading
+        title="Lo showroom: tutto da vedere e toccare"
+        subtitle="Lastre di grande formato, campionari, decori e sanitari esposti in ambienti reali. Passa a vedere i materiali dal vivo."
+      />
+      <a href="/showroom/" class="btn btn-secondary" data-reveal>Tutte le foto dello showroom</a>
+    </div>
+
+    <div class="strip__wall">
+      {
+        photos.map((photo, index) => (
+          <a href="/showroom/" class:list={['strip__tile', { 'strip__tile--lead': index === 0 }]} aria-label={photo.alt}>
+            <Image
+              src={photo.image}
+              alt={photo.alt}
+              widths={[320, 480, 720, 960]}
+              sizes={index === 0 ? '(max-width: 700px) 100vw, 50vw' : '(max-width: 700px) 50vw, 25vw'}
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .strip__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  .strip__head :global(.section-head),
+  .strip__head > .btn {
+    margin-bottom: var(--space-lg);
+  }
+
+  .strip__wall {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: var(--grout);
+    aspect-ratio: 2 / 1;
+  }
+
+  .strip__tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: var(--color-paper-alt);
+  }
+
+  .strip__tile--lead {
+    grid-column: span 2;
+    grid-row: span 2;
+    border-radius: 160px var(--radius-lg) var(--radius-lg) var(--radius-lg);
+  }
+
+  .strip__tile :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .strip__tile:hover :global(img) {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 700px) {
+    .strip__wall {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: none;
+      aspect-ratio: auto;
+    }
+
+    .strip__tile {
+      aspect-ratio: 1 / 1;
+    }
+
+    .strip__tile--lead {
+      grid-column: 1 / -1;
+      grid-row: auto;
+      aspect-ratio: 4 / 3;
+    }
+  }
+</style>

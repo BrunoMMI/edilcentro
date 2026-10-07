@@ -3,7 +3,7 @@ import Seo from '@components/seo/Seo.astro';
 import Header from '@components/layout/Header.astro';
 import Footer from '@components/layout/Footer.astro';
 import CookieConsent from '@components/cookie/CookieConsent.astro';
-import { organizationSchema, websiteSchema, breadcrumbSchema } from '@lib/schema';
+import { organizationSchema, ferramentaSchema, websiteSchema, breadcrumbSchema } from '@lib/schema';
 import '@styles/global.css';
 
 interface Props {
@@ -20,6 +20,7 @@ const { title, description, path, image, noindex, breadcrumbs, jsonLd = [] } = A
 
 const structuredData = [
   organizationSchema(),
+  ferramentaSchema(),
   websiteSchema(),
   ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []),
   ...jsonLd,
@@ -31,6 +32,7 @@ const structuredData = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="format-detection" content="telephone=no" />
     <Seo title={title} description={description} path={path} image={image} noindex={noindex} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -39,12 +41,9 @@ const structuredData = [
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#1c5d90" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Font self-hosted: nessuna richiesta a server di terze parti -->
+    <link rel="preload" href="/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/figtree-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     {structuredData.map((schema) => <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />)}
   </head>

@@ -23,23 +23,29 @@ const breadcrumbs = [
 
 <BaseLayout
   title="Ferramenta — Utensili e materiali per l'edilizia a Pace del Mela"
-  description="Il reparto Ferramenta di Edil Centro a Pace del Mela: utensili, sistemi di fissaggio, vernici e materiali per l'edilizia. Indirizzo, telefono e orari di apertura."
+  description="Il reparto Ferramenta di Edil Centro a Pace del Mela: utensili, sistemi di fissaggio, vernici e materiali per l'edilizia. Via Papa Giovanni XXIII 4, orari e telefono."
   path="/ferramenta/"
   breadcrumbs={breadcrumbs}
 >
   <PageHero
-    eyebrow="Reparto dedicato"
     title="Ferramenta Edil Centro"
-    subtitle="Da Edil Centro trovi tutto ciò che ti serve per costruire, riparare o rinnovare: uno staff competente pronto a consigliare la soluzione più adatta, in una sede dedicata a Pace del Mela."
+    subtitle="Tutto ciò che serve per costruire, riparare o rinnovare: uno staff competente pronto a consigliare la soluzione più adatta, in una sede dedicata a Pace del Mela."
     breadcrumbs={breadcrumbs}
+    image={photo1}
+    imageAlt="Reparto Ferramenta Edil Centro a Pace del Mela"
   />
 
   <section class="section section--tight">
     <div class="container ferramenta-gallery">
       {
-        gallery.map((img, index) => (
-          <div class:list={['fg-item', { 'fg-item--wide': index === 0 }]} data-reveal data-reveal-index={index % 4}>
-            <Image src={img} alt="Reparto Ferramenta Edil Centro a Pace del Mela" widths={[360, 560, 800]} sizes="(max-width: 900px) 45vw, 22vw" />
+        gallery.slice(1).map((img, index) => (
+          <div class:list={['fg-item', { 'fg-item--wide': index === 0 }]} data-reveal="fade">
+            <Image
+              src={img}
+              alt="Reparto Ferramenta Edil Centro a Pace del Mela, scaffali e articoli esposti"
+              widths={[360, 560, 800]}
+              sizes="(max-width: 900px) 50vw, 25vw"
+            />
           </div>
         ))
       }
@@ -49,27 +55,25 @@ const breadcrumbs = [
   <section class="section section--alt">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">Cosa trovi in ferramenta</p>
-        <h2>Settori e categorie trattate</h2>
+        <h2>Cosa trovi in ferramenta</h2>
       </div>
-      <div class="sectors-grid">
+      <ul class="sectors-grid tile-grid">
         {
           ferramentaSectors.map((sector, index) => (
-            <div class="sector-card" data-reveal data-reveal-index={index % 4}>
+            <li class="sector-tile" data-reveal data-reveal-index={index % 4}>
               <h3>{sector.title}</h3>
               <p>{sector.description}</p>
-            </div>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 
   <section class="section">
     <div class="container ferramenta-info">
       <div data-reveal>
-        <p class="eyebrow">Perché scegliere il nostro reparto ferramenta</p>
-        <h2>Vantaggi</h2>
+        <h2>Perché scegliere il nostro reparto</h2>
         <ul class="advantages">
           {ferramentaAdvantages.map((item) => <li>{item}</li>)}
         </ul>
@@ -109,12 +113,16 @@ const breadcrumbs = [
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows: 200px;
-    gap: var(--space-sm);
+    gap: var(--grout);
   }
 
   .fg-item {
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     overflow: hidden;
+  }
+
+  .fg-item--wide {
+    border-radius: var(--radius-lg) 140px var(--radius-lg) var(--radius-lg);
   }
 
   .fg-item :global(img) {
@@ -129,43 +137,40 @@ const breadcrumbs = [
   }
 
   .sectors-grid {
-    display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-md);
   }
 
-  .sector-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+  .sector-tile {
     padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
   }
 
-  .sector-card h3 {
-    font-size: 1.0625rem;
-    margin-bottom: 0.4em;
+  .sector-tile h3 {
+    font-size: 1.1875rem;
+    margin-bottom: var(--space-2xs);
   }
 
-  .sector-card p {
-    font-size: 0.875rem;
+  .sector-tile p {
+    font-size: 1rem;
   }
 
   .ferramenta-info {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: var(--space-2xl);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
     align-items: start;
   }
 
   .advantages {
-    display: grid;
-    gap: var(--space-sm);
     margin-top: var(--space-md);
   }
 
   .advantages li {
-    padding-left: 1.75em;
     position: relative;
+    padding: var(--space-sm) 0 var(--space-sm) 2rem;
+    border-top: 1px solid var(--color-border);
     color: var(--color-ink-soft);
   }
 
@@ -173,50 +178,75 @@ const breadcrumbs = [
     content: '';
     position: absolute;
     left: 0;
-    top: 0.5em;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--color-accent);
+    top: 1.35em;
+    width: 14px;
+    height: 8px;
+    border-left: 3px solid var(--color-accent-dark);
+    border-bottom: 3px solid var(--color-accent-dark);
+    transform: rotate(-45deg);
   }
 
   .ferramenta-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
     padding: var(--space-lg);
+    background:
+      radial-gradient(circle at 95% 5%, rgba(0, 152, 69, 0.45), transparent 45%),
+      var(--color-primary-dark);
+    border-radius: var(--radius-xl);
+    color: #fff;
+  }
+
+  .ferramenta-card h3,
+  .ferramenta-card address {
+    color: #fff;
   }
 
   .ferramenta-card address {
     font-style: normal;
-    color: var(--color-ink-soft);
-    margin-block: var(--space-sm) var(--space-md);
-  }
-
-  .ferramenta-hours {
-    display: grid;
-    gap: 0.5em;
-    margin-bottom: var(--space-lg);
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-sm);
   }
 
   .ferramenta-hours li {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    font-size: 0.9375rem;
-    gap: var(--space-sm);
-  }
-
-  .ferramenta-hours li span:first-child {
-    font-weight: 600;
-    color: var(--color-ink);
+    gap: 0 var(--space-sm);
+    padding-block: 0.5em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .ferramenta-card__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6em;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .ferramenta-card .btn-primary {
+    background: #fff;
+    color: var(--color-primary-dark);
+  }
+
+  .ferramenta-card .btn-primary:hover {
+    background: var(--color-accent-light);
+  }
+
+  .ferramenta-card .btn-secondary {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .ferramenta-card .btn-secondary:hover {
+    background: #fff;
+    color: var(--color-primary-dark);
+  }
+
+  @media (max-width: 1100px) {
+    .sectors-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (max-width: 900px) {
@@ -225,12 +255,19 @@ const breadcrumbs = [
       grid-auto-rows: 160px;
     }
 
-    .sectors-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
     .ferramenta-info {
       grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .sectors-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ferramenta-card {
+      padding: var(--space-md);
     }
   }
 </style>

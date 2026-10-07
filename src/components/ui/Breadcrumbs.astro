@@ -6,12 +6,13 @@ interface Crumb {
 
 interface Props {
   items: Crumb[];
+  light?: boolean;
 }
 
-const { items } = Astro.props;
+const { items, light = false } = Astro.props;
 ---
 
-<nav class="breadcrumbs" aria-label="Percorso di navigazione">
+<nav class:list={['breadcrumbs', { 'breadcrumbs--light': light }]} aria-label="Percorso di navigazione">
   <ol>
     {
       items.map((item, index) => (
@@ -21,9 +22,7 @@ const { items } = Astro.props;
           ) : (
             <>
               <a href={item.url}>{item.name}</a>
-              <span class="breadcrumbs__sep" aria-hidden="true">
-                /
-              </span>
+              <span class="breadcrumbs__sep" aria-hidden="true">/</span>
             </>
           )}
         </li>
@@ -37,7 +36,7 @@ const { items } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4em;
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     color: var(--color-ink-faint);
   }
 
@@ -49,15 +48,29 @@ const { items } = Astro.props;
 
   .breadcrumbs a {
     color: var(--color-ink-faint);
-    transition: color var(--transition-base);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--transition-base), color var(--transition-base);
   }
 
   .breadcrumbs a:hover {
     color: var(--color-primary);
+    text-decoration-color: currentColor;
   }
 
   .breadcrumbs span[aria-current] {
-    color: var(--color-ink-soft);
-    font-weight: 500;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  .breadcrumbs--light ol,
+  .breadcrumbs--light a {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .breadcrumbs--light a:hover,
+  .breadcrumbs--light span[aria-current] {
+    color: #fff;
   }
 </style>

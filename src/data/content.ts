@@ -116,6 +116,21 @@ export const faqItems: FaqItem[] = [
       'Pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia e spazio vasca, oltre al reparto ferramenta per utensili e materiali per l’edilizia.',
   },
   {
+    question: 'Quali marchi trovo da Edil Centro?',
+    answer:
+      'Lo showroom tratta decine di marchi italiani ed europei: per pavimenti e rivestimenti, tra gli altri, Casalgrande Padana, Rak Ceramica, Panaria Group, Ceramica Rondine e Supergres; per sanitari Cielo, Vitra e Geberit; per rubinetteria Cristina, Effepi e Palazzini; per arredo bagno Azzurra e Colavene.',
+  },
+  {
+    question: 'Vendete anche a imprese e professionisti?',
+    answer:
+      'Sì. Edil Centro fornisce materiali edili e soluzioni per la ristrutturazione sia a privati sia a imprese edili e artigiani, con il reparto Ferramenta dedicato agli strumenti e ai materiali di cantiere.',
+  },
+  {
+    question: 'Quali sono gli orari della Ferramenta?',
+    answer:
+      'Il reparto Ferramenta è aperto dal lunedì al venerdì dalle 6:30 alle 12:30 e dalle 15:00 alle 19:00, il sabato dalle 6:30 alle 12:00; la domenica è chiuso.',
+  },
+  {
     question: 'È previsto il ritiro in negozio o la consegna a domicilio?',
     answer:
       'Entrambe le opzioni sono disponibili: puoi ritirare i materiali direttamente in showroom oppure richiedere la consegna a domicilio.',

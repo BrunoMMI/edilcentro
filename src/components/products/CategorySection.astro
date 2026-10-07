@@ -5,126 +5,109 @@ import { brandGroups } from '@data/brands';
 
 interface Props {
   category: ProductCategory;
-  index: number;
 }
 
-const { category, index } = Astro.props;
+const { category } = Astro.props;
 const brands = brandGroups[category.brandGroup] ?? [];
-const reversed = index % 2 === 1;
 ---
 
-<article id={category.slug} class:list={['cat-section', { 'cat-section--reverse': reversed }]}>
-  <div class="cat-section__media" data-reveal data-reveal="scale">
-    <Image
-      src={category.image}
-      alt={`${category.title} — materiali disponibili da Edil Centro`}
-      widths={[420, 640, 900]}
-      sizes="(max-width: 900px) 90vw, 44vw"
-    />
-  </div>
+<article id={category.slug} class="cat-section">
   <div class="cat-section__copy">
-    <h2 data-reveal>{category.title}</h2>
-    <p class="lede" data-reveal data-reveal-index="1">{category.description}</p>
-
-    {
-      brands.length > 0 && (
-        <div class="cat-section__brands" data-reveal data-reveal-index="2">
-          <p class="cat-section__brands-label">Brand disponibili</p>
-          <ul>
-            {brands.map((brand) => (
-              <li>
-                <Image src={brand.logo} alt={brand.name} height={40} loading="lazy" />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
-
-    <a href="/contatti/" class="btn btn-primary" data-reveal data-reveal-index="3">
-      Richiedi informazioni su {category.title.toLowerCase()}
-    </a>
+    <h2>{category.title}</h2>
+    <p class="cat-section__text">{category.description}</p>
+    <a href="/contatti/" class="btn btn-primary">Chiedi informazioni su {category.title.toLowerCase()}</a>
   </div>
+
+  {
+    brands.length > 0 && (
+      <div class="cat-section__brands">
+        <h3>
+          Marchi disponibili <span>({brands.length})</span>
+        </h3>
+        <ul class="cat-section__logos" aria-label={`Marchi per ${category.title.toLowerCase()}`}>
+          {brands.map((brand) => (
+            <li>
+              <Image src={brand.logo} alt={brand.name} width={220} loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 </article>
 
 <style>
   .cat-section {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xl);
-    align-items: center;
-    padding-block: var(--space-2xl);
-    border-bottom: 1px solid var(--color-border);
-    scroll-margin-top: calc(var(--header-height) + 16px);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-xl);
+    padding-block: var(--space-xl);
+    border-top: 1px solid var(--color-border-strong);
   }
 
-  .cat-section:last-child {
-    border-bottom: none;
+  .cat-section__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    align-self: start;
+    position: sticky;
+    top: calc(var(--header-height) + 72px);
   }
 
-  .cat-section--reverse {
-    direction: rtl;
+  .cat-section__text {
+    font-size: 1.0625rem;
   }
 
-  .cat-section--reverse > * {
-    direction: ltr;
-  }
-
-  .cat-section__media {
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-  }
-
-  .cat-section__media :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cat-section__copy .lede {
-    margin-block: var(--space-sm) var(--space-md);
-  }
-
-  .cat-section__brands-label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-ink-faint);
+  .cat-section__brands h3 {
+    font-size: 1.125rem;
     margin-bottom: var(--space-sm);
   }
 
-  .cat-section__brands ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
+  .cat-section__brands h3 span {
+    color: var(--color-ink-faint);
+    font-weight: 500;
   }
 
-  .cat-section__brands li {
+  .cat-section__logos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+    gap: var(--grout);
+  }
+
+  .cat-section__logos li {
     display: grid;
     place-items: center;
+    height: 88px;
+    padding: 12px 16px;
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 0.5em 0.85em;
-    height: 56px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
   }
 
-  .cat-section__brands :global(img) {
-    max-height: 32px;
+  .cat-section__logos :global(img) {
     width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 52px;
     object-fit: contain;
   }
 
   @media (max-width: 900px) {
-    .cat-section,
-    .cat-section--reverse {
+    .cat-section {
       grid-template-columns: 1fr;
-      direction: ltr;
-      gap: var(--space-md);
+      gap: var(--space-lg);
+      padding-block: var(--space-lg);
+    }
+
+    .cat-section__copy {
+      position: static;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .cat-section__logos {
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

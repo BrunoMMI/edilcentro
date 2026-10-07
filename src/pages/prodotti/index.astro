@@ -5,32 +5,62 @@ import CategoryJumpNav from '@components/products/CategoryJumpNav.astro';
 import CategorySection from '@components/products/CategorySection.astro';
 import CtaBanner from '@components/home/CtaBanner.astro';
 import { categories } from '@data/categories';
+import { showroomPhoto } from '@data/showroom';
+import { SITE_URL } from '@/consts';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Prodotti', url: '/prodotti/' },
+];
+
+const hero = showroomPhoto('corridoio-lastre-gres');
+
+const catalogSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Prodotti Edil Centro',
+  url: `${SITE_URL}/prodotti/`,
+  inLanguage: 'it-IT',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: categories.map((category, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: category.title,
+      description: category.shortDescription,
+      url: `${SITE_URL}/prodotti/#${category.slug}`,
+    })),
+  },
+};
 ---
 
 <BaseLayout
   title="Prodotti — Pavimenti, rivestimenti, sanitari e arredo bagno"
-  description="Scopri le categorie di prodotto di Edil Centro: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia e spazio vasca, con i brand disponibili."
+  description="Le categorie di Edil Centro a Pace del Mela: pavimenti, rivestimenti, sanitari, arredo bagno, rubinetteria, termoarredo, spazio doccia e spazio vasca, con tutti i marchi disponibili."
   path="/prodotti/"
-  breadcrumbs={[
-    { name: 'Home', url: '/' },
-    { name: 'Prodotti', url: '/prodotti/' },
-  ]}
+  breadcrumbs={breadcrumbs}
+  image={hero.image.src}
+  jsonLd={[catalogSchema]}
 >
   <PageHero
-    eyebrow="Catalogo"
     title="I nostri prodotti"
-    subtitle="Otto categorie pensate per accompagnarti in ogni fase del progetto: dai pavimenti alla rubinetteria, dall'arredo bagno al termoarredo."
-    breadcrumbs={[
-      { name: 'Home', url: '/' },
-      { name: 'Prodotti', url: '/prodotti/' },
-    ]}
+    subtitle="Otto categorie per accompagnarti in ogni fase del progetto, con i marchi disponibili in showroom per ciascuna."
+    breadcrumbs={breadcrumbs}
+    image={hero.image}
+    imageAlt={hero.alt}
   />
 
   <CategoryJumpNav />
 
-  <div class="container">
-    {categories.map((category, index) => <CategorySection category={category} index={index} />)}
+  <div class="container products">
+    {categories.map((category) => <CategorySection category={category} />)}
   </div>
 
   <CtaBanner />
 </BaseLayout>
+
+<style>
+  .products {
+    padding-block: var(--space-md) var(--space-xl);
+  }
+</style>

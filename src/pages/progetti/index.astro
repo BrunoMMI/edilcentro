@@ -1,32 +1,52 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/ui/PageHero.astro';
-import ProjectGallery from '@components/projects/ProjectGallery.astro';
+import Gallery from '@components/ui/Gallery.astro';
 import CtaBanner from '@components/home/CtaBanner.astro';
+import { projectImages, projectStyles } from '@data/projects';
+import { SITE_URL } from '@/consts';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Progetti', url: '/progetti/' },
+];
+
+const items = projectImages.map((p) => ({ image: p.image, alt: p.alt, group: p.style }));
+
+const gallerySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Progetti: render 3D di bagni Edil Centro',
+  url: `${SITE_URL}/progetti/`,
+  inLanguage: 'it-IT',
+  about: projectStyles.map((s) => s.label),
+  numberOfItems: projectImages.length,
+};
 ---
 
 <BaseLayout
   title="Progetti — Render 3D di bagni realizzati da Edil Centro"
-  description="Sfoglia la galleria di render 3D fotorealistici realizzati da Edil Centro: ambientazioni bagno in stile marmo, cementato, geometrico, floreale ed effetto pennellata."
+  description="Galleria di render 3D fotorealistici di bagni realizzati da Edil Centro a Pace del Mela: stili marmo, cementato, geometrico, floreale ed effetto pennellata."
   path="/progetti/"
-  breadcrumbs={[
-    { name: 'Home', url: '/' },
-    { name: 'Progetti', url: '/progetti/' },
-  ]}
+  breadcrumbs={breadcrumbs}
+  jsonLd={[gallerySchema]}
 >
   <PageHero
-    eyebrow="Render 3D"
     title="I nostri progetti"
     subtitle="Prima di iniziare i lavori, visualizza il risultato: una selezione di render fotorealistici realizzati su misura per ambientazioni bagno."
-    breadcrumbs={[
-      { name: 'Home', url: '/' },
-      { name: 'Progetti', url: '/progetti/' },
-    ]}
+    breadcrumbs={breadcrumbs}
   />
 
-  <div class="container">
-    <ProjectGallery />
-  </div>
+  <section class="section section--tight">
+    <div class="container">
+      <Gallery
+        items={items}
+        filters={projectStyles.map((s) => ({ slug: s.slug, label: s.label }))}
+        filterLabel="Filtra i progetti per stile"
+        lightboxLabel="Anteprima render del progetto"
+      />
+    </div>
+  </section>
 
   <CtaBanner />
 </BaseLayout>

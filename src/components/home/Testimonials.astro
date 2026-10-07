@@ -3,72 +3,87 @@ import SectionHeading from '@components/ui/SectionHeading.astro';
 import { testimonials } from '@data/content';
 ---
 
-<section class="testimonials section">
+<section class="testimonials section section--alt">
   <div class="container">
-    <SectionHeading eyebrow="Chi ci ha scelto" title="Le parole di chi ha lavorato con noi" align="center" />
+    <SectionHeading title="Le parole di chi ha lavorato con noi" />
 
-    <div class="testimonials__grid">
+    <ul class="testimonials__grid tile-grid">
       {
         testimonials.map((item, index) => (
-          <figure class="testimonial-card" data-reveal data-reveal-index={index}>
-            <svg class="testimonial-card__quote" width="32" height="24" viewBox="0 0 32 24" fill="none" aria-hidden="true">
-              <path
-                d="M0 24V14.4C0 6.4 4.8 1.2 13.6 0l1.6 4C9.6 5.6 6.8 8.8 6.4 13.2H14V24H0Zm17.6 0V14.4c0-8 4.8-13.2 13.6-14.4l1.6 4c-5.6 1.6-8.4 4.8-8.8 9.2H32V24H17.6Z"
-                fill="currentColor"
-              />
-            </svg>
-            <blockquote>
-              <p>{item.quote}</p>
-            </blockquote>
-            <figcaption>
-              <span class="testimonial-card__name">{item.name}</span>
-              <span class="testimonial-card__role">{item.role}</span>
-            </figcaption>
-          </figure>
+          <li data-reveal data-reveal-index={index}>
+            <figure class="testimonial">
+              <blockquote>
+                <p>{item.quote}</p>
+              </blockquote>
+              <figcaption>
+                <span class="testimonial__name">{item.name}</span>
+                <span class="testimonial__role">{item.role}</span>
+              </figcaption>
+            </figure>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </div>
 </section>
 
 <style>
   .testimonials__grid {
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
   }
 
-  .testimonial-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
+  .testimonials__grid li {
+    display: flex;
   }
 
-  .testimonial-card__quote {
-    color: var(--color-accent);
-    margin-bottom: var(--space-sm);
-  }
-
-  .testimonial-card blockquote p {
-    font-size: 0.9375rem;
-    line-height: 1.65;
-    color: var(--color-ink-soft);
-  }
-
-  .testimonial-card figcaption {
+  .testimonial {
     display: flex;
     flex-direction: column;
-    margin-top: var(--space-md);
+    justify-content: space-between;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
   }
 
-  .testimonial-card__name {
-    font-weight: 600;
+  .testimonial::before {
+    content: '“';
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding-top: 0.2em;
+    background: var(--color-accent-dark);
+    color: #fff;
+    border-radius: 50%;
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .testimonial blockquote p {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
     color: var(--color-ink);
   }
 
-  .testimonial-card__role {
-    font-size: 0.8125rem;
+  .testimonial figcaption {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial__name {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .testimonial__role {
+    font-size: 0.9375rem;
     color: var(--color-ink-faint);
   }
 
