@@ -1,0 +1,5 @@
+contenuti/
+node_modules/
+dist/
+.astro/
+.env*
