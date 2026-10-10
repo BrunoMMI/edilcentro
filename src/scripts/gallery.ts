@@ -3,6 +3,7 @@ export {};
 const grid = document.querySelector<HTMLElement>('[data-gallery]');
 const items = Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-item]'));
 const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-gallery-filter]'));
+const description = document.querySelector<HTMLElement>('[data-gallery-description]');
 
 const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
 const dialogImg = dialog?.querySelector<HTMLImageElement>('[data-lightbox-img]');
@@ -22,6 +23,8 @@ function applyFilter(style: string) {
     if (match) visibleItems.push(item);
   });
   grid?.setAttribute('data-count', String(visibleItems.length));
+  const active = filterButtons.find((b) => b.dataset.galleryFilter === style);
+  if (description) description.textContent = active?.dataset.description ?? '';
 }
 
 filterButtons.forEach((btn) => {
@@ -70,7 +73,17 @@ dialog?.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') step(-1);
 });
 
-const hashFilter = decodeURIComponent(window.location.hash.slice(1));
-const initialButton = filterButtons.find((btn) => btn.dataset.galleryFilter === hashFilter);
-if (initialButton) initialButton.click();
-else applyFilter('all');
+function selectFromHash() {
+  const hashFilter = decodeURIComponent(window.location.hash.slice(1));
+  const match = filterButtons.find((btn) => btn.dataset.galleryFilter === hashFilter);
+  if (match) match.click();
+  return Boolean(match);
+}
+
+window.addEventListener('hashchange', selectFromHash);
+
+if (!selectFromHash()) {
+  // Senza il pulsante "Tutti" si parte dal filtro già attivo (il primo)
+  const pressed = filterButtons.find((btn) => btn.getAttribute('aria-pressed') === 'true');
+  applyFilter(pressed?.dataset.galleryFilter ?? 'all');
+}

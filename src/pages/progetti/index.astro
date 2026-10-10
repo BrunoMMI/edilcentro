@@ -11,6 +11,7 @@ const breadcrumbs = [
   { name: 'Progetti', url: '/progetti/' },
 ];
 
+const hero = projectImages.find((p) => p.image.src.includes('render-bagno-marmo-07'))!;
 const items = projectImages.map((p) => ({ image: p.image, alt: p.alt, group: p.style }));
 
 const gallerySchema = {
@@ -29,19 +30,23 @@ const gallerySchema = {
   description="Galleria di render 3D fotorealistici di bagni realizzati da Edil Centro a Pace del Mela: stili marmo, cementato, geometrico, floreale ed effetto pennellata."
   path="/progetti/"
   breadcrumbs={breadcrumbs}
+  image={hero.image.src}
   jsonLd={[gallerySchema]}
 >
   <PageHero
     title="I nostri progetti"
     subtitle="Prima di iniziare i lavori, visualizza il risultato: una selezione di render fotorealistici realizzati su misura per ambientazioni bagno."
     breadcrumbs={breadcrumbs}
+    image={hero.image}
+    imageAlt={hero.alt}
   />
 
   <section class="section section--tight">
     <div class="container">
       <Gallery
         items={items}
-        filters={projectStyles.map((s) => ({ slug: s.slug, label: s.label }))}
+        filters={projectStyles.map((s) => ({ slug: s.slug, label: s.label, description: s.description }))}
+        showAll={false}
         filterLabel="Filtra i progetti per stile"
         lightboxLabel="Anteprima render del progetto"
       />

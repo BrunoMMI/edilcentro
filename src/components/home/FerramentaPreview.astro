@@ -1,19 +1,30 @@
 ---
 import { Image } from 'astro:assets';
 import img from '@assets/ferramenta/ferramenta-edil-centro-02.webp';
+import img2 from '@assets/ferramenta/ferramenta-edil-centro-05.webp';
 import { ferramentaLocation } from '@data/site';
 ---
 
 <section class="ferramenta-preview section section--alt">
   <div class="container ferramenta-preview__grid">
-    <figure class="ferramenta-preview__image leaf leaf--alt" data-reveal="fade">
-      <Image
-        src={img}
-        alt="Reparto Ferramenta Edil Centro: esposizione di utensili e materiali per l'edilizia"
-        widths={[480, 720, 960]}
-        sizes="(max-width: 900px) 100vw, 46vw"
-      />
-    </figure>
+    <div class="ferramenta-preview__images" data-reveal="fade">
+      <figure class="ferramenta-preview__main">
+        <Image
+          src={img}
+          alt="Reparto Ferramenta Edil Centro: esposizione di utensili e materiali per l'edilizia"
+          widths={[480, 720, 960]}
+          sizes="(max-width: 900px) 100vw, 46vw"
+        />
+      </figure>
+      <figure class="ferramenta-preview__inset">
+        <Image
+          src={img2}
+          alt="Pannello con utensili manuali nel reparto Ferramenta Edil Centro"
+          widths={[320, 480]}
+          sizes="(max-width: 900px) 40vw, 20vw"
+        />
+      </figure>
+    </div>
 
     <div class="ferramenta-preview__copy">
       <h2 data-reveal>Ferramenta: tutto per costruire, riparare, rinnovare</h2>
@@ -33,19 +44,35 @@ import { ferramentaLocation } from '@data/site';
 <style>
   .ferramenta-preview__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 6vw, 6rem);
     align-items: center;
   }
 
-  .ferramenta-preview__image {
-    aspect-ratio: 4 / 3.4;
-    box-shadow: var(--shadow-lg);
+  .ferramenta-preview__images {
+    position: relative;
+    padding-bottom: 3rem;
+    padding-right: 3rem;
   }
 
-  .ferramenta-preview__image :global(img) {
+  .ferramenta-preview__main :global(img) {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .ferramenta-preview__inset {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    border: 8px solid var(--color-paper-alt);
+    box-shadow: var(--shadow-md);
+  }
+
+  .ferramenta-preview__inset :global(img) {
+    width: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
   }
 
@@ -58,16 +85,22 @@ import { ferramentaLocation } from '@data/site';
 
   .ferramenta-preview__address {
     font-weight: 600;
-    color: var(--color-ink);
-    padding: 0.5em 1.1em;
-    background: var(--color-accent-light);
-    border-radius: var(--radius-full);
+    color: var(--color-primary-dark);
   }
 
   @media (max-width: 900px) {
     .ferramenta-preview__grid {
       grid-template-columns: 1fr;
-      gap: var(--space-lg);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .ferramenta-preview__images {
+      padding: 0;
+    }
+
+    .ferramenta-preview__inset {
+      display: none;
     }
   }
 </style>

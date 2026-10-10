@@ -7,13 +7,14 @@ import { ferramentaSectors, ferramentaAdvantages } from '@data/ferramenta';
 import { ferramentaLocation } from '@data/site';
 
 import photo1 from '@assets/ferramenta/ferramenta-edil-centro-01.webp';
+import photo0 from '@assets/ferramenta/ferramenta-edil-centro-02.webp';
 import photo2 from '@assets/ferramenta/ferramenta-edil-centro-03.webp';
 import photo3 from '@assets/ferramenta/ferramenta-edil-centro-04.webp';
 import photo4 from '@assets/ferramenta/ferramenta-edil-centro-05.webp';
 import photo5 from '@assets/ferramenta/ferramenta-edil-centro-06.webp';
 import photo6 from '@assets/ferramenta/ferramenta-edil-centro-07.webp';
 
-const gallery = [photo1, photo2, photo3, photo4, photo5, photo6];
+const gallery = [photo1, photo0, photo2, photo3, photo4, photo5, photo6];
 
 const breadcrumbs = [
   { name: 'Home', url: '/' },
@@ -117,12 +118,11 @@ const breadcrumbs = [
   }
 
   .fg-item {
-    border-radius: var(--radius-lg);
     overflow: hidden;
   }
 
-  .fg-item--wide {
-    border-radius: var(--radius-lg) 140px var(--radius-lg) var(--radius-lg);
+  .fg-item:last-child {
+    grid-column: 1 / -1;
   }
 
   .fg-item :global(img) {

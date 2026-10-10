@@ -9,10 +9,6 @@ const photo = showroomPhoto('sala-consulenza-clienti');
 
 <section class="whyus section section--alt">
   <div class="container whyus__grid">
-    <div class="whyus__image leaf" data-reveal="fade">
-      <Image src={photo.image} alt={photo.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 44vw" />
-    </div>
-
     <div class="whyus__copy">
       <SectionHeading title="Competenza, materiali selezionati, un unico interlocutore" />
       <dl class="whyus__list">
@@ -26,58 +22,68 @@ const photo = showroomPhoto('sala-consulenza-clienti');
         }
       </dl>
     </div>
+
+    <figure class="whyus__image" data-reveal="fade">
+      <Image src={photo.image} alt={photo.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 44vw" />
+    </figure>
   </div>
 </section>
 
 <style>
   .whyus__grid {
     display: grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: var(--space-xl);
-    align-items: start;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
   }
 
-  .whyus__image {
-    position: sticky;
-    top: calc(var(--header-height) + var(--space-md));
-    aspect-ratio: 4 / 5;
-    box-shadow: var(--shadow-lg);
-  }
-
-  .whyus__image :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .whyus__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg) var(--space-lg);
   }
 
   .whyus__item {
-    padding-block: var(--space-md);
-    border-top: 1px solid var(--color-border-strong);
+    padding-top: var(--space-sm);
+    border-top: 2px solid var(--color-primary);
+  }
+
+  .whyus__item:nth-child(even) {
+    border-top-color: var(--color-accent);
   }
 
   .whyus__item dt {
     font-family: var(--font-display);
-    font-weight: 700;
     font-size: 1.375rem;
-    letter-spacing: -0.015em;
     color: var(--color-ink);
-    margin-bottom: 0.35em;
+    line-height: 1.2;
+    margin-bottom: var(--space-2xs);
   }
 
   .whyus__item dd {
     color: var(--color-ink-soft);
-    max-width: 56ch;
+    font-size: 1rem;
   }
 
-  @media (max-width: 900px) {
+  .whyus__image :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  @media (max-width: 1000px) {
     .whyus__grid {
       grid-template-columns: 1fr;
-      gap: var(--space-lg);
     }
 
-    .whyus__image {
-      position: static;
-      aspect-ratio: 4 / 3;
+    .whyus__image :global(img) {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .whyus__list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

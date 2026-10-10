@@ -26,8 +26,8 @@ import { faqItems } from '@data/content';
 <style>
   .faq__grid {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: var(--space-xl);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 6rem);
     align-items: start;
   }
 
@@ -36,66 +36,59 @@ import { faqItems } from '@data/content';
     top: calc(var(--header-height) + var(--space-md));
   }
 
-  .faq__list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
   .faq__item {
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    padding-inline: var(--space-md);
-    box-shadow: var(--shadow-sm);
+    border-top: 1px solid var(--color-border);
   }
 
-  .faq__item[open] {
-    box-shadow: var(--shadow-md);
+  .faq__item:last-child {
+    border-bottom: 1px solid var(--color-border);
   }
 
   .faq__item summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-sm);
-    min-height: 64px;
-    padding-block: var(--space-sm);
+    position: relative;
+    display: block;
+    padding: var(--space-md) 3rem var(--space-md) 0;
     font-family: var(--font-display);
-    font-weight: 700;
     font-size: 1.1875rem;
-    letter-spacing: -0.01em;
+    line-height: 1.35;
     color: var(--color-ink);
     cursor: pointer;
     list-style: none;
+    min-height: 44px;
   }
 
   .faq__item summary::-webkit-details-marker {
     display: none;
   }
 
+  .faq__item summary::before,
   .faq__item summary::after {
     content: '';
-    flex-shrink: 0;
-    width: 14px;
-    height: 14px;
-    background:
-      linear-gradient(var(--color-accent-dark), var(--color-accent-dark)) center / 100% 2px no-repeat,
-      linear-gradient(var(--color-accent-dark), var(--color-accent-dark)) center / 2px 100% no-repeat;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    width: 16px;
+    height: 2px;
+    margin-top: -1px;
+    background: var(--color-primary);
     transition: transform var(--transition-base);
   }
 
+  .faq__item summary::after {
+    transform: rotate(90deg);
+  }
+
   .faq__item[open] summary::after {
-    transform: rotate(45deg);
+    transform: rotate(0);
   }
 
   .faq__item p {
-    padding-bottom: var(--space-md);
+    padding: 0 3rem var(--space-md) 0;
   }
 
   @media (max-width: 900px) {
     .faq__grid {
       grid-template-columns: 1fr;
-      gap: var(--space-md);
     }
 
     .faq__grid :global(.section-head) {

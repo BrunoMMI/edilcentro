@@ -9,81 +9,93 @@ interface Props {
   breadcrumbs: { name: string; url: string }[];
   image?: ImageMetadata;
   imageAlt?: string;
+  position?: string;
 }
 
-const { title, subtitle, breadcrumbs, image, imageAlt = '' } = Astro.props;
+const { title, subtitle, breadcrumbs, image, imageAlt = '', position = '50% 50%' } = Astro.props;
 ---
 
 <section class:list={['page-hero', { 'page-hero--photo': image }]}>
-  <div class="container page-hero__grid">
-    <div class="page-hero__copy">
-      <Breadcrumbs items={breadcrumbs} light={Boolean(image)} />
-      <h1>{title}</h1>
-      {subtitle && <p class="lede">{subtitle}</p>}
-    </div>
-    {
-      image && (
-        <div class="page-hero__photo">
-          <Image
-            src={image}
-            alt={imageAlt}
-            widths={[480, 720, 1000]}
-            sizes="(max-width: 900px) 100vw, 46vw"
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-      )
-    }
+  {
+    image && (
+      <div class="page-hero__photo">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[768, 1200, 1600, 2200]}
+          sizes="100vw"
+          loading="eager"
+          fetchpriority="high"
+          style={`object-position: ${position}`}
+        />
+      </div>
+    )
+  }
+  <div class="container page-hero__inner">
+    <Breadcrumbs items={breadcrumbs} light={Boolean(image)} />
+    <h1>{title}</h1>
+    {subtitle && <p class="lede">{subtitle}</p>}
   </div>
 </section>
 
 <style>
   .page-hero {
-    padding-block: var(--space-lg) var(--space-xl);
-    margin: var(--space-xs) var(--panel-inset) 0;
-    border-radius: var(--radius-xl);
-    background:
-      radial-gradient(circle at 100% 0%, rgba(0, 152, 69, 0.14), transparent 40%),
-      radial-gradient(circle at 0% 100%, rgba(28, 93, 144, 0.12), transparent 45%),
-      var(--color-paper-alt);
+    position: relative;
+    isolation: isolate;
+    padding-block: var(--space-xl);
+    background: var(--color-paper-alt);
+    border-bottom: 1px solid var(--color-border);
   }
 
-  .page-hero__copy h1 {
-    margin-top: var(--space-md);
-    max-width: 18ch;
-  }
-
-  .page-hero__copy .lede {
-    margin-top: var(--space-sm);
-    max-width: 52ch;
-  }
-
-  /* Variante con fotografia: pannello blu morbido + foto ad angoli opposti */
-  .page-hero--photo {
-    padding: 0;
-    margin: var(--space-xs) 0 0;
-    border-radius: 0;
-    background: none;
-  }
-
-  .page-hero--photo .page-hero__grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: var(--grout);
-  }
-
-  .page-hero--photo .page-hero__copy {
-    padding: clamp(1.75rem, 5vw, 4rem);
-    align-self: stretch;
+  .page-hero__inner {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    border-radius: var(--radius-xl);
-    background:
-      radial-gradient(circle at 95% 5%, rgba(0, 152, 69, 0.45), transparent 45%),
-      radial-gradient(circle at 0% 100%, rgba(28, 93, 144, 0.65), transparent 55%),
-      var(--color-primary-dark);
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    max-width: 20ch;
+    margin-top: var(--space-xs);
+  }
+
+  .page-hero .lede {
+    max-width: 56ch;
+  }
+
+  /* Variante con fotografia a tutta larghezza */
+  .page-hero--photo {
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(340px, 52vh, 560px);
+    padding-block: var(--space-xl) clamp(2rem, 5vw, 3.5rem);
+    background: var(--color-primary-dark);
+    border: 0;
+  }
+
+  .page-hero__photo {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .page-hero__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .page-hero--photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(8, 28, 46, 0.85) 0%, rgba(8, 28, 46, 0.45) 50%, rgba(8, 28, 46, 0.2));
+  }
+
+  .page-hero--photo .page-hero__inner {
+    padding-top: var(--space-xl);
   }
 
   .page-hero--photo h1,
@@ -91,38 +103,17 @@ const { title, subtitle, breadcrumbs, image, imageAlt = '' } = Astro.props;
     color: #fff;
   }
 
+  .page-hero--photo h1 {
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
+  }
+
   .page-hero--photo .lede {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.92);
   }
 
-  .page-hero__photo {
-    position: relative;
-    min-height: 340px;
-    overflow: hidden;
-    border-radius: 160px var(--radius-xl) var(--radius-xl) var(--radius-xl);
-  }
-
-  .page-hero__photo :global(img) {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  @media (max-width: 900px) {
-    .page-hero--photo .page-hero__grid {
-      grid-template-columns: 1fr;
-    }
-
-    .page-hero--photo .page-hero__copy {
-      padding: var(--space-lg) var(--space-md);
-    }
-
-    .page-hero__photo {
-      min-height: 0;
-      aspect-ratio: 16 / 10;
-      border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 100px;
+  @media (max-width: 640px) {
+    .page-hero--photo {
+      min-height: 380px;
     }
   }
 </style>

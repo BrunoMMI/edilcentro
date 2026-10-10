@@ -53,7 +53,7 @@ const catalogSchema = {
   <CategoryJumpNav />
 
   <div class="container products">
-    {categories.map((category) => <CategorySection category={category} />)}
+    {categories.map((category, index) => <CategorySection category={category} index={index} />)}
   </div>
 
   <CtaBanner />
@@ -61,6 +61,6 @@ const catalogSchema = {
 
 <style>
   .products {
-    padding-block: var(--space-md) var(--space-xl);
+    padding-block: var(--space-md) var(--space-lg);
   }
 </style>

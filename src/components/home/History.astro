@@ -1,11 +1,11 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { yearsOfActivity, foundedYear } from '@data/site';
 import { allBrands } from '@data/brands';
 import { categories } from '@data/categories';
 import { showroomPhoto } from '@data/showroom';
 
-const bg = showroomPhoto('galleria-coperta-showroom');
+const bg = await getImage({ src: showroomPhoto('galleria-coperta-decori').image, width: 2000, format: 'webp' });
 const brandCount = Math.floor(allBrands.length / 5) * 5;
 
 const stats = [
@@ -16,13 +16,10 @@ const stats = [
 ];
 ---
 
-<section class="history section section--dark">
-  <div class="history__bg" aria-hidden="true">
-    <Image src={bg.image} alt="" widths={[720, 1200, 1800]} sizes="100vw" />
-  </div>
-  <div class="container history__grid">
+<section class="history photo-band photo-band--fixed section" style={`background-image: url(${bg.src})`}>
+  <div class="container history__inner">
     <div class="history__copy" data-reveal>
-      <h2>Una storia che continua dal {foundedYear}</h2>
+      <h2>Vi aiutiamo a costruire i vostri spazi</h2>
       <p class="lede">
         Da oltre {yearsOfActivity} anni Edil Centro affianca famiglie e imprese della provincia di Messina nella
         scelta di materiali per l'edilizia e l'arredo bagno, con la stessa cura per il dettaglio che ha
@@ -51,78 +48,67 @@ const stats = [
 
 <style>
   .history {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
+    padding-block: clamp(4rem, 10vw, 8rem);
   }
 
-  .history__bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-  }
-
-  .history__bg :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .history__bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(100deg, rgba(13, 44, 70, 0.96) 25%, rgba(13, 44, 70, 0.82));
-  }
-
-  .history__grid {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: var(--space-xl);
+  .history__inner {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: var(--space-xl);
+    text-align: center;
+  }
+
+  .history__copy {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .history__copy h2 {
+    color: #fff;
   }
 
   .history__stats {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--grout);
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
   }
 
   .stat {
-    padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: var(--radius-lg);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    padding: var(--space-md) var(--space-sm) 0;
+  }
+
+  .stat + .stat {
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   .stat dt {
     font-family: var(--font-display);
-    font-weight: 800;
-    font-stretch: 94%;
-    font-size: clamp(2.75rem, 5vw, 4.25rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     line-height: 1;
-    letter-spacing: -0.03em;
     color: #fff;
   }
 
   .stat dd {
-    margin-top: var(--space-xs);
+    margin-top: var(--space-2xs);
+    margin-inline: auto;
+    max-width: 18ch;
+    font-size: 0.9375rem;
     color: rgba(255, 255, 255, 0.85);
-    font-size: 1rem;
   }
 
-  @media (max-width: 900px) {
-    .history__grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
-    }
-  }
-
-  @media (max-width: 420px) {
+  @media (max-width: 800px) {
     .history__stats {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: var(--space-md);
+    }
+
+    .stat:nth-child(odd) {
+      border-left: 0;
     }
   }
 </style>

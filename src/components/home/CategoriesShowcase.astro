@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import SectionHeading from '@components/ui/SectionHeading.astro';
 import { categories } from '@data/categories';
+import { categoryImage } from '@data/category-images';
 import { brandGroups } from '@data/brands';
 ---
 
-<section class="categories section section--alt">
+<section class="categories section">
   <div class="container">
     <div class="categories__head">
       <SectionHeading
@@ -14,20 +16,23 @@ import { brandGroups } from '@data/brands';
       <a href="/prodotti/" class="btn btn-secondary" data-reveal>Tutti i prodotti e i marchi</a>
     </div>
 
-    <ul class="categories__grid tile-grid">
+    <ul class="categories__grid">
       {
         categories.map((category, index) => {
           const count = brandGroups[category.brandGroup]?.length ?? 0;
+          const photo = categoryImage(category.slug);
           return (
             <li data-reveal data-reveal-index={index % 4}>
               <a href={`/prodotti/#${category.slug}`} class="cat-tile">
-                <h3>{category.title}</h3>
-                <p>{category.shortDescription}</p>
-                <span class="cat-tile__meta">
-                  {count} marchi
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" />
-                  </svg>
+                <Image
+                  src={photo.image}
+                  alt=""
+                  widths={[360, 560, 800]}
+                  sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 25vw"
+                />
+                <span class="cat-tile__body">
+                  <h3>{category.title}</h3>
+                  <span class="cat-tile__meta">{count} marchi</span>
                 </span>
               </a>
             </li>
@@ -45,73 +50,72 @@ import { brandGroups } from '@data/brands';
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-md);
-  }
-
-  .categories__head :global(.section-head),
-  .categories__head > .btn {
     margin-bottom: var(--space-lg);
   }
 
-  .categories__grid {
-    grid-template-columns: repeat(4, 1fr);
+  .categories__head :global(.section-head) {
+    margin-bottom: 0;
   }
 
-  .categories__grid li {
-    display: flex;
+  .categories__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--grout);
   }
 
   .cat-tile {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    width: 100%;
-    min-height: 260px;
-    padding: var(--space-md);
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
-    transition: background-color var(--transition-base), transform var(--transition-base),
-      box-shadow var(--transition-base);
-  }
-
-  .cat-tile p {
-    font-size: 1rem;
-  }
-
-  .cat-tile__meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
-    padding-top: var(--space-sm);
-    font-weight: 650;
-    color: var(--color-primary);
-  }
-
-  .cat-tile__meta svg {
-    transition: transform var(--transition-base);
-  }
-
-  .cat-tile:hover {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
     background: var(--color-primary-dark);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-  }
-
-  .cat-tile:hover svg {
-    transform: translateX(4px);
-  }
-
-  .cat-tile:hover h3,
-  .cat-tile:hover .cat-tile__meta {
     color: #fff;
   }
 
-  .cat-tile:hover p {
+  .cat-tile :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cat-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(8, 28, 46, 0.85) 0%, rgba(8, 28, 46, 0.1) 55%, transparent);
+  }
+
+  .cat-tile:hover :global(img),
+  .cat-tile:focus-visible :global(img) {
+    transform: scale(1.06);
+  }
+
+  .cat-tile__body {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cat-tile h3 {
+    color: #fff;
+    font-size: clamp(1.375rem, 2vw, 1.75rem);
+  }
+
+  .cat-tile__meta {
+    font-size: 0.9375rem;
     color: rgba(255, 255, 255, 0.85);
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1000px) {
     .categories__grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -119,11 +123,16 @@ import { brandGroups } from '@data/brands';
 
   @media (max-width: 560px) {
     .categories__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
     }
 
     .cat-tile {
-      min-height: 0;
+      aspect-ratio: 1;
+    }
+
+    .cat-tile__body {
+      padding: var(--space-sm);
     }
   }
 </style>

@@ -1,6 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import SectionHeading from '@components/ui/SectionHeading.astro';
 import { services } from '@data/content';
+import { showroomPhoto } from '@data/showroom';
+
+const photo = showroomPhoto('ufficio-consulenza');
 
 const icons: Record<string, string> = {
   consulenza: 'M12 3 3 8v3h18V8l-9-5Zm-7 9v8h4v-6h6v6h4v-8H5Z',
@@ -11,23 +15,30 @@ const icons: Record<string, string> = {
 ---
 
 <section class="services section">
-  <div class="container">
-    <SectionHeading
-      title="Un servizio completo, dal progetto alla posa"
-      subtitle="Non solo vendita di materiali: un percorso di consulenza pensato per accompagnarti in ogni fase."
-    />
+  <div class="container services__grid">
+    <div class="services__intro">
+      <SectionHeading
+        title="Un servizio completo, dal progetto alla posa"
+        subtitle="Non solo vendita di materiali: un percorso di consulenza pensato per accompagnarti in ogni fase."
+      />
+      <figure class="services__photo" data-reveal="fade">
+        <Image src={photo.image} alt={photo.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 40vw" />
+      </figure>
+    </div>
 
-    <ul class="services__grid tile-grid">
+    <ul class="services__list">
       {
         services.map((service, index) => (
-          <li class="service-tile" data-reveal data-reveal-index={index}>
-            <span class="service-tile__icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+          <li class="service" data-reveal data-reveal-index={index}>
+            <span class="service__icon" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
                 <path d={icons[service.icon]} />
               </svg>
             </span>
-            <h3>{service.title}</h3>
-            <p>{service.description}</p>
+            <div>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+            </div>
           </li>
         ))
       }
@@ -37,47 +48,58 @@ const icons: Record<string, string> = {
 
 <style>
   .services__grid {
-    grid-template-columns: repeat(4, 1fr);
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
   }
 
-  .service-tile {
+  .services__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .services__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-md);
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
   }
 
-  .service-tile__icon {
+  .service {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-md);
+    padding-block: var(--space-md);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .service:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .service__icon {
     display: grid;
     place-items: center;
     width: 56px;
     height: 56px;
-    margin-bottom: var(--space-xs);
-    background: var(--color-primary);
-    color: #fff;
-    border-radius: 50%;
+    color: var(--color-primary);
+    background: var(--color-primary-light);
   }
 
-  .service-tile:nth-child(even) .service-tile__icon {
-    background: var(--color-accent-dark);
+  .service h3 {
+    margin-bottom: var(--space-3xs);
   }
 
-  .service-tile p {
-    font-size: 1rem;
-  }
-
-  @media (max-width: 1100px) {
+  @media (max-width: 900px) {
     .services__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr;
     }
   }
 
-  @media (max-width: 560px) {
-    .services__grid {
+  @media (max-width: 480px) {
+    .service {
       grid-template-columns: 1fr;
+      gap: var(--space-sm);
     }
   }
 </style>

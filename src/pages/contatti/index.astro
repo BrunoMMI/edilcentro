@@ -12,6 +12,7 @@ const breadcrumbs = [
   { name: 'Contatti', url: '/contatti/' },
 ];
 
+const heroPhoto = showroomPhoto('facciata-ceramiche');
 const showroomFacade = showroomPhoto('facciata-sanitari-arredi');
 
 const locations = [
@@ -42,6 +43,8 @@ const locations = [
     title="Contatti"
     subtitle="Due sedi a Pace del Mela per seguire ogni fase del tuo progetto: lo showroom di materiali e arredo bagno e il reparto Ferramenta."
     breadcrumbs={breadcrumbs}
+    image={heroPhoto.image}
+    imageAlt={heroPhoto.alt}
   />
 
   <section class="section section--tight">

@@ -1,104 +1,220 @@
 ---
 import { Image } from 'astro:assets';
-import RoofRule from '@components/ui/RoofRule.astro';
 import { showroomPhoto } from '@data/showroom';
 import { foundedYear, mainLocation } from '@data/site';
 
-const facade = showroomPhoto('facciata-sanitari-arredi');
-const side = [
-  showroomPhoto('rubinetteria-e-sanitari-esposti'),
-  showroomPhoto('galleria-coperta-showroom'),
-  showroomPhoto('corridoio-espositori-onice'),
+const slides = [
+  { photo: showroomPhoto('facciata-sanitari-arredi'), label: 'Lo showroom di Pace del Mela', href: '/showroom/', cta: 'Scopri lo showroom', position: '50% 60%' },
+  { photo: showroomPhoto('galleria-coperta-showroom'), label: 'Pavimenti e rivestimenti', href: '/prodotti/#pavimenti', cta: 'Vedi i pavimenti', position: '50% 55%' },
+  { photo: showroomPhoto('rubinetteria-e-sanitari-esposti'), label: 'Sanitari e rubinetteria', href: '/prodotti/#sanitari', cta: 'Vedi i sanitari', position: '50% 55%' },
+  { photo: showroomPhoto('corridoio-lastre-gres'), label: 'Lastre in gres di grande formato', href: '/prodotti/#rivestimenti', cta: 'Vedi i rivestimenti', position: '50% 55%' },
+  { photo: showroomPhoto('rivestimenti-decorati-floreali'), label: 'Decori e rivestimenti', href: '/prodotti/#rivestimenti', cta: 'Vedi i rivestimenti', position: '40% 50%' },
+  { photo: showroomPhoto('lastre-effetto-marmo'), label: 'Effetto marmo e campionari', href: '/prodotti/#pavimenti', cta: 'Vedi i pavimenti', position: '50% 55%' },
 ];
 ---
 
-<section class="hero">
-  <div class="container">
-    <div class="hero__wall">
-      <div class="hero__text">
-        <h1>Ceramiche, sanitari e arredo bagno a Pace del Mela, dal {foundedYear}</h1>
-        <p class="lede">
-          Showroom di pavimenti, rivestimenti, sanitari e rubinetteria, con reparto ferramenta dedicato. Ti
-          consigliamo di persona e, prima di acquistare, ti mostriamo il tuo bagno con un render 3D su misura.
-        </p>
-        <div class="hero__actions">
-          <a href="/showroom/" class="btn btn-light">Scopri lo showroom</a>
-          <a href="/prodotti/" class="btn btn-outline-light">Guarda i prodotti</a>
-        </div>
-        <p class="hero__address">
-          {mainLocation.street}, {mainLocation.cap} {mainLocation.city} ({mainLocation.province})
-        </p>
-      </div>
-
-      <div class="hero__arch-wrap">
-        <div class="hero__photo hero__photo--main arch">
+<section class="hero" data-hero aria-roledescription="carosello" aria-label="Immagini dello showroom">
+  <div class="hero__slides">
+    {
+      slides.map((slide, index) => (
+        <div
+          class:list={['hero__slide', { 'is-active': index === 0 }]}
+          data-hero-slide
+          role="group"
+          aria-roledescription="diapositiva"
+          aria-label={`${index + 1} di ${slides.length}: ${slide.label}`}
+          aria-hidden={index === 0 ? 'false' : 'true'}
+        >
           <Image
-            src={facade.image}
-            alt={facade.alt}
-            widths={[480, 720, 960, 1200]}
-            sizes="(max-width: 900px) 80vw, 40vw"
-            loading="eager"
-            fetchpriority="high"
+            src={slide.photo.image}
+            alt={slide.photo.alt}
+            widths={[768, 1200, 1600, 2200]}
+            sizes="100vw"
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchpriority={index === 0 ? 'high' : 'auto'}
+            style={`object-position: ${slide.position}`}
           />
         </div>
-        <div class="hero__badge" aria-hidden="true">
-          <strong>{foundedYear}</strong>
-          <span>Ceramiche Valenti</span>
-        </div>
-      </div>
-
-      {
-        side.map((photo, index) => (
-          <div class:list={['hero__photo', 'hero__photo--side', { 'hero__photo--lead': index === 0 }]}>
-            <Image src={photo.image} alt={photo.alt} widths={[360, 560, 760]} sizes="(max-width: 900px) 50vw, 32vw" loading="eager" />
-          </div>
-        ))
-      }
-    </div>
+      ))
+    }
   </div>
-  <div class="container hero__roof">
-    <RoofRule />
+
+  <div class="hero__shade" aria-hidden="true"></div>
+
+  <div class="container hero__content">
+    <div class="hero__copy">
+      <h1>Ceramiche, sanitari e arredo bagno dal {foundedYear}</h1>
+      <p class="hero__caption" aria-live="off">
+        {
+          slides.map((slide, index) => (
+            <a href={slide.href} class:list={['hero__caption-link', { 'is-active': index === 0 }]} data-hero-caption tabindex={index === 0 ? undefined : -1}>
+              {slide.label}: <span>{slide.cta}</span>
+            </a>
+          ))
+        }
+      </p>
+      <div class="hero__actions">
+        <a href="/prodotti/" class="btn btn-light">Guarda i prodotti</a>
+        <a href={mainLocation.phoneHref} class="btn btn-outline-light">Chiama {mainLocation.phone}</a>
+      </div>
+    </div>
+
+    <div class="hero__controls">
+      <ol class="hero__bars" aria-label="Scegli l'immagine">
+        {
+          slides.map((slide, index) => (
+            <li>
+              <button
+                type="button"
+                data-hero-dot
+                class:list={['hero__bar', { 'is-active': index === 0 }]}
+                aria-label={`Vai all'immagine ${index + 1}: ${slide.label}`}
+                aria-current={index === 0 ? 'true' : undefined}
+              >
+                <span></span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="hero__buttons">
+        <button type="button" class="hero__btn" data-hero-toggle aria-label="Metti in pausa lo slideshow" aria-pressed="false">
+          <svg class="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6V4Zm8 0h4v16h-4V4Z"></path></svg>
+          <svg class="icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8L7 4Z"></path></svg>
+        </button>
+        <button type="button" class="hero__btn" data-hero-prev aria-label="Immagine precedente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 5-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+        <button type="button" class="hero__btn" data-hero-next aria-label="Immagine successiva">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 5 7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  import '../../scripts/hero-slider.ts';
+</script>
+
 <style>
   .hero {
-    padding-top: var(--space-xs);
-  }
-
-  .hero__wall {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: var(--grout);
-  }
-
-  .hero__text {
+    --hero-interval: 6500ms;
     position: relative;
     isolation: isolate;
+    height: calc(100svh - var(--header-height));
+    min-height: 520px;
+    max-height: 1000px;
     overflow: hidden;
-    grid-column: 1 / 9;
-    grid-row: 1;
-    padding: clamp(1.75rem, 5vw, 4.5rem);
-    padding-right: clamp(1.75rem, 11vw, 9rem);
+    background: var(--color-primary-dark);
+    color: #fff;
+  }
+
+  .hero__slides,
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__slide {
+    opacity: 0;
+    transition: opacity 1400ms ease;
+  }
+
+  .hero__slide.is-active {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .hero__slide :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+  }
+
+  /* Lenta spinta di zoom: solo sulla diapositiva attiva */
+  .hero__slide.is-active :global(img) {
+    animation: hero-zoom calc(var(--hero-interval) + 1800ms) ease-out forwards;
+  }
+
+  .hero[data-paused='true'] .hero__slide.is-active :global(img) {
+    animation-play-state: paused;
+  }
+
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.07);
+    }
+  }
+
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      linear-gradient(0deg, rgba(8, 28, 46, 0.82) 0%, rgba(8, 28, 46, 0.45) 38%, rgba(8, 28, 46, 0.08) 70%),
+      linear-gradient(90deg, rgba(8, 28, 46, 0.35), transparent 55%);
+  }
+
+  .hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    gap: var(--space-lg);
+    padding-bottom: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-md);
-    border-radius: var(--radius-xl);
-    background:
-      radial-gradient(circle at 92% 8%, rgba(0, 152, 69, 0.5), transparent 42%),
-      radial-gradient(circle at 0% 100%, rgba(28, 93, 144, 0.65), transparent 55%),
-      var(--color-primary-dark);
   }
 
-  .hero__text h1 {
+  .hero__copy h1 {
     color: #fff;
-    max-width: 15ch;
+    max-width: 16ch;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
   }
 
-  .hero__text .lede {
-    color: rgba(255, 255, 255, 0.88);
-    max-width: 46ch;
+  .hero__caption {
+    position: relative;
+    display: grid;
+    min-height: 1.75em;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: #fff;
+  }
+
+  .hero__caption-link {
+    grid-area: 1 / 1;
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 600ms ease, transform 600ms ease, visibility 0s linear 600ms;
+  }
+
+  .hero__caption-link span {
+    border-bottom: 1.5px solid rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+  }
+
+  .hero__caption-link:hover span {
+    border-bottom-color: #fff;
+  }
+
+  .hero__caption-link.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 600ms ease 300ms, transform 600ms ease 300ms;
   }
 
   .hero__actions {
@@ -107,128 +223,150 @@ const side = [
     gap: var(--space-xs);
   }
 
-  .hero__address {
-    font-size: 0.9375rem;
-    color: rgba(255, 255, 255, 0.75);
+  .hero__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
   }
 
-  /* L'arco della foto "esce" dal pannello blu */
-  .hero__arch-wrap {
-    position: relative;
-    grid-column: 8 / 13;
-    grid-row: 1;
-    z-index: 2;
-    align-self: center;
-    margin-left: -3rem;
+  .hero__bars {
+    display: flex;
+    flex: 1;
+    gap: 6px;
+    max-width: 30rem;
   }
 
-  .hero__photo {
+  .hero__bars li {
+    flex: 1;
+  }
+
+  .hero__bar {
+    display: block;
+    width: 100%;
+    height: 24px;
+    padding: 10px 0;
+  }
+
+  .hero__bar span {
     position: relative;
+    display: block;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.35);
     overflow: hidden;
-    background: var(--color-paper-alt);
   }
 
-  .hero__photo :global(img) {
+  .hero__bar span::after {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
   }
 
-  .hero__photo--main {
-    box-shadow: var(--shadow-lg);
-    border: 8px solid var(--color-paper);
-    border-bottom-width: 8px;
+  .hero__bar.is-active span::after {
+    animation: hero-progress var(--hero-interval) linear forwards;
   }
 
-  .hero__badge {
-    position: absolute;
-    left: -2.25rem;
-    bottom: 2.5rem;
+  .hero[data-paused='true'] .hero__bar.is-active span::after {
+    animation-play-state: paused;
+  }
+
+  .hero[data-static='true'] .hero__bar.is-active span::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+
+  @keyframes hero-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .hero__buttons {
+    display: flex;
+    gap: var(--space-2xs);
+  }
+
+  .hero__btn {
     display: grid;
-    place-content: center;
-    gap: 0.1em;
-    width: 8.5rem;
-    height: 8.5rem;
-    text-align: center;
-    background: var(--color-accent-dark);
-    color: #fff;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
-    border: 6px solid var(--color-paper);
-    box-shadow: var(--shadow-md);
-    transform: rotate(-8deg);
-  }
-
-  .hero__badge strong {
-    font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.03em;
     color: #fff;
+    transition: background-color var(--transition-base), color var(--transition-base);
   }
 
-  .hero__badge span {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    line-height: 1.2;
-    padding-inline: 0.8em;
-    color: rgba(255, 255, 255, 0.92);
+  .hero__btn:hover {
+    background: #fff;
+    color: var(--color-primary-dark);
   }
 
-  .hero__photo--side {
-    grid-column: span 4;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius-lg);
+  .hero__btn .icon-play,
+  .hero__btn[aria-pressed='true'] .icon-pause {
+    display: none;
   }
 
-  .hero__photo--lead {
-    border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-xl);
-  }
-
-  .hero__roof {
-    margin-top: var(--space-md);
-    color: var(--color-primary);
+  .hero__btn[aria-pressed='true'] .icon-play {
+    display: block;
   }
 
   @media (max-width: 900px) {
-    .hero__text {
-      grid-column: 1 / -1;
-      grid-row: auto;
-      padding-right: clamp(1.75rem, 5vw, 4.5rem);
+    .hero {
+      min-height: 480px;
     }
 
-    .hero__arch-wrap {
-      grid-column: 1 / -1;
-      grid-row: auto;
-      width: min(78%, 360px);
-      margin: calc(-1 * var(--space-lg)) auto 0;
+    .hero__copy h1 {
+      max-width: 14ch;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero {
+      min-height: 560px;
     }
 
-    .hero__badge {
-      left: -1rem;
-      bottom: 1.5rem;
-      width: 6.75rem;
-      height: 6.75rem;
+    .hero__actions .btn {
+      flex: 1 1 100%;
     }
 
-    .hero__badge strong {
-      font-size: 1.5rem;
+    .hero__bars {
+      max-width: none;
     }
 
-    .hero__badge span {
-      font-size: 0.6875rem;
+    .hero__btn {
+      width: 44px;
+      height: 44px;
     }
 
-    .hero__photo--side {
-      grid-column: span 6;
-      aspect-ratio: 1 / 1;
+    .hero__btn:first-child {
+      display: none;
+    }
+  }
+
+  @media (max-height: 520px) and (orientation: landscape) {
+    .hero {
+      min-height: 420px;
     }
 
-    .hero__photo--lead {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 9;
+    .hero__copy {
+      gap: var(--space-xs);
+    }
+
+    .hero__copy h1 {
+      font-size: 2rem;
+      max-width: 24ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__slide.is-active :global(img) {
+      animation: none;
     }
   }
 </style>

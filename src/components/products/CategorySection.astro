@@ -1,21 +1,30 @@
 ---
 import { Image } from 'astro:assets';
 import type { ProductCategory } from '@data/categories';
+import { categoryImage } from '@data/category-images';
 import { brandGroups } from '@data/brands';
 
 interface Props {
   category: ProductCategory;
+  index?: number;
 }
 
-const { category } = Astro.props;
+const { category, index = 0 } = Astro.props;
 const brands = brandGroups[category.brandGroup] ?? [];
+const photo = categoryImage(category.slug);
 ---
 
-<article id={category.slug} class="cat-section">
-  <div class="cat-section__copy">
-    <h2>{category.title}</h2>
-    <p class="cat-section__text">{category.description}</p>
-    <a href="/contatti/" class="btn btn-primary">Chiedi informazioni su {category.title.toLowerCase()}</a>
+<article id={category.slug} class:list={['cat-section', { 'cat-section--flip': index % 2 === 1 }]}>
+  <div class="cat-section__inner">
+    <figure class="cat-section__photo" data-reveal="fade">
+      <Image src={photo.image} alt={photo.alt} widths={[480, 720, 1000]} sizes="(max-width: 900px) 100vw, 50vw" loading="lazy" />
+    </figure>
+
+    <div class="cat-section__copy">
+      <h2>{category.title}</h2>
+      <p class="cat-section__text">{category.description}</p>
+      <a href="/contatti/" class="btn btn-primary">Chiedi informazioni su {category.title.toLowerCase()}</a>
+    </div>
   </div>
 
   {
@@ -27,7 +36,7 @@ const brands = brandGroups[category.brandGroup] ?? [];
         <ul class="cat-section__logos" aria-label={`Marchi per ${category.title.toLowerCase()}`}>
           {brands.map((brand) => (
             <li>
-              <Image src={brand.logo} alt={brand.name} width={220} loading="lazy" />
+              <Image src={brand.logo} alt={brand.name} height={64} loading="lazy" />
             </li>
           ))}
         </ul>
@@ -38,11 +47,28 @@ const brands = brandGroups[category.brandGroup] ?? [];
 
 <style>
   .cat-section {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: var(--space-xl);
     padding-block: var(--space-xl);
-    border-top: 1px solid var(--color-border-strong);
+  }
+
+  .cat-section + .cat-section {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .cat-section__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .cat-section--flip .cat-section__photo {
+    order: 2;
+  }
+
+  .cat-section__photo :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
   }
 
   .cat-section__copy {
@@ -50,29 +76,32 @@ const brands = brandGroups[category.brandGroup] ?? [];
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-md);
-    align-self: start;
-    position: sticky;
-    top: calc(var(--header-height) + 72px);
   }
 
   .cat-section__text {
     font-size: 1.0625rem;
   }
 
+  .cat-section__brands {
+    margin-top: var(--space-xl);
+  }
+
   .cat-section__brands h3 {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     margin-bottom: var(--space-sm);
   }
 
   .cat-section__brands h3 span {
     color: var(--color-ink-faint);
-    font-weight: 500;
+    font-family: var(--font-body);
+    font-size: 1rem;
   }
 
   .cat-section__logos {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-    gap: var(--grout);
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    border-top: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
   }
 
   .cat-section__logos li {
@@ -80,9 +109,9 @@ const brands = brandGroups[category.brandGroup] ?? [];
     place-items: center;
     height: 88px;
     padding: 12px 16px;
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    background: #fff;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .cat-section__logos :global(img) {
@@ -95,13 +124,20 @@ const brands = brandGroups[category.brandGroup] ?? [];
 
   @media (max-width: 900px) {
     .cat-section {
-      grid-template-columns: 1fr;
-      gap: var(--space-lg);
       padding-block: var(--space-lg);
     }
 
-    .cat-section__copy {
-      position: static;
+    .cat-section__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+
+    .cat-section--flip .cat-section__photo {
+      order: 0;
+    }
+
+    .cat-section__brands {
+      margin-top: var(--space-lg);
     }
   }
 

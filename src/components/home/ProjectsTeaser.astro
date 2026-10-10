@@ -1,6 +1,12 @@
 ---
+import { Image } from 'astro:assets';
 import SectionHeading from '@components/ui/SectionHeading.astro';
-import { projectStyles } from '@data/projects';
+import { projectImages, projectStyles } from '@data/projects';
+
+const tiles = projectStyles.map((style) => ({
+  ...style,
+  cover: projectImages.find((p) => p.style === style.slug)!,
+}));
 ---
 
 <section class="teaser section">
@@ -13,13 +19,16 @@ import { projectStyles } from '@data/projects';
       <a href="/progetti/" class="btn btn-primary" data-reveal>Vai ai progetti</a>
     </div>
 
-    <ul class="teaser__styles tile-grid">
+    <ul class="teaser__styles">
       {
-        projectStyles.map((style, index) => (
+        tiles.map((style, index) => (
           <li data-reveal data-reveal-index={index}>
             <a href={`/progetti/#${style.slug}`} class="style-tile">
-              <h3>{style.label}</h3>
-              <p>{style.description}</p>
+              <Image src={style.cover.image} alt="" widths={[360, 560, 800]} sizes="(max-width: 700px) 100vw, 33vw" />
+              <span class="style-tile__body">
+                <h3>{style.label}</h3>
+                <p>{style.description}</p>
+              </span>
             </a>
           </li>
         ))
@@ -35,44 +44,83 @@ import { projectStyles } from '@data/projects';
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-md);
-  }
-
-  .teaser__head :global(.section-head),
-  .teaser__head > .btn {
     margin-bottom: var(--space-lg);
   }
 
+  .teaser__head :global(.section-head) {
+    margin-bottom: 0;
+  }
+
   .teaser__styles {
-    grid-template-columns: repeat(5, 1fr);
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--grout);
   }
 
   .teaser__styles li {
-    display: flex;
+    grid-column: span 2;
+  }
+
+  .teaser__styles li:nth-child(n + 4) {
+    grid-column: span 3;
   }
 
   .style-tile {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xs);
+    position: relative;
+    display: block;
+    height: 100%;
+    min-height: 280px;
+    overflow: hidden;
+    background: var(--color-primary-dark);
+    color: #fff;
+  }
+
+  .style-tile :global(img) {
+    position: absolute;
+    inset: 0;
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .style-tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(8, 28, 46, 0.88) 0%, rgba(8, 28, 46, 0.15) 60%, transparent);
+  }
+
+  .style-tile:hover :global(img) {
+    transform: scale(1.06);
+  }
+
+  .style-tile__body {
+    position: absolute;
+    z-index: 1;
+    inset: auto 0 0 0;
     padding: var(--space-md);
-    background: var(--color-primary-light);
-    border-radius: var(--radius-lg);
-    transition: background-color var(--transition-base), transform var(--transition-base);
+  }
+
+  .style-tile h3 {
+    color: #fff;
+    margin-bottom: var(--space-3xs);
   }
 
   .style-tile p {
+    color: rgba(255, 255, 255, 0.88);
     font-size: 0.9375rem;
+    line-height: 1.5;
   }
 
-  .style-tile:hover {
-    background: var(--color-accent-light);
-    transform: translateY(-4px);
-  }
-
-  @media (max-width: 1100px) {
+  @media (max-width: 900px) {
     .teaser__styles {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .teaser__styles li,
+    .teaser__styles li:nth-child(n + 4) {
+      grid-column: span 1;
     }
 
     .teaser__styles li:last-child {
@@ -83,6 +131,15 @@ import { projectStyles } from '@data/projects';
   @media (max-width: 560px) {
     .teaser__styles {
       grid-template-columns: 1fr;
+    }
+
+    .teaser__styles li,
+    .teaser__styles li:last-child {
+      grid-column: 1;
+    }
+
+    .style-tile {
+      min-height: 240px;
     }
   }
 </style>

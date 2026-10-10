@@ -1,23 +1,18 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { mainLocation } from '@data/site';
 import { showroomPhoto } from '@data/showroom';
 
-const bg = showroomPhoto('showroom-ceramiche-e-cucine');
+const bg = await getImage({ src: showroomPhoto('showroom-ceramiche-e-cucine').image, width: 2000, format: 'webp' });
 ---
 
-<section class="cta">
-  <div class="cta__bg" aria-hidden="true">
-    <Image src={bg.image} alt="" widths={[720, 1200, 1800]} sizes="100vw" loading="lazy" />
-  </div>
+<section class="cta photo-band photo-band--fixed" style={`background-image: url(${bg.src})`}>
   <div class="container cta__inner">
-    <div class="cta__copy">
-      <h2>Hai in mente un progetto? Parliamone in showroom.</h2>
-      <p class="lede">
-        Vieni a trovarci a Pace del Mela per una consulenza, oppure contattaci per informazioni su prodotti,
-        disponibilità e render 3D.
-      </p>
-    </div>
+    <h2>Hai in mente un progetto? Parliamone in showroom.</h2>
+    <p class="lede">
+      Vieni a trovarci a Pace del Mela per una consulenza, oppure contattaci per informazioni su prodotti,
+      disponibilità e render 3D.
+    </p>
     <div class="cta__actions">
       <a href="/contatti/" class="btn btn-light">Richiedi un preventivo</a>
       <a href={mainLocation.phoneHref} class="btn btn-outline-light">Chiama {mainLocation.phone}</a>
@@ -27,67 +22,37 @@ const bg = showroomPhoto('showroom-ceramiche-e-cucine');
 
 <style>
   .cta {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-    margin: var(--space-2xl) var(--panel-inset) var(--panel-inset);
-    padding-block: var(--space-2xl);
-    border-radius: var(--radius-xl);
-    color: #fff;
-  }
-
-  .cta__bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-  }
-
-  .cta__bg :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cta__bg::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(100deg, rgba(13, 44, 70, 0.95) 30%, rgba(13, 44, 70, 0.7));
+    padding-block: clamp(4rem, 10vw, 8rem);
+    text-align: center;
   }
 
   .cta__inner {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-lg);
-  }
-
-  .cta__copy {
-    max-width: 38rem;
-    display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
+    align-items: center;
+    gap: var(--space-md);
   }
 
   .cta h2 {
-    color: #fff;
+    max-width: 22ch;
   }
 
-  .cta .lede {
-    color: rgba(255, 255, 255, 0.88);
+  .cta p {
+    max-width: 52ch;
   }
 
   .cta__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-xs);
+    margin-top: var(--space-xs);
   }
 
-  @media (max-width: 560px) {
-    .cta__actions,
-    .cta__actions .btn {
+  @media (max-width: 480px) {
+    .cta__actions {
       width: 100%;
+      flex-direction: column;
     }
   }
 </style>

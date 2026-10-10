@@ -7,7 +7,7 @@ import { testimonials } from '@data/content';
   <div class="container">
     <SectionHeading title="Le parole di chi ha lavorato con noi" />
 
-    <ul class="testimonials__grid tile-grid">
+    <ul class="testimonials__grid">
       {
         testimonials.map((item, index) => (
           <li data-reveal data-reveal-index={index}>
@@ -29,11 +29,9 @@ import { testimonials } from '@data/content';
 
 <style>
   .testimonials__grid {
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .testimonials__grid li {
-    display: flex;
+    gap: var(--space-md);
   }
 
   .testimonial {
@@ -41,34 +39,20 @@ import { testimonials } from '@data/content';
     flex-direction: column;
     justify-content: space-between;
     gap: var(--space-md);
-    width: 100%;
-    padding: var(--space-md);
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    height: 100%;
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+    background: #fff;
+    border-top: 3px solid var(--color-primary);
   }
 
-  .testimonial::before {
-    content: '“';
-    display: grid;
-    place-items: center;
-    width: 48px;
-    height: 48px;
-    padding-top: 0.2em;
-    background: var(--color-accent-dark);
-    color: #fff;
-    border-radius: 50%;
-    font-family: var(--font-display);
-    font-size: 2.25rem;
-    font-weight: 800;
-    line-height: 1;
+  .testimonials__grid li:nth-child(2) .testimonial {
+    border-top-color: var(--color-accent);
   }
 
   .testimonial blockquote p {
     font-family: var(--font-display);
     font-size: 1.1875rem;
-    line-height: 1.45;
-    letter-spacing: -0.01em;
+    line-height: 1.55;
     color: var(--color-ink);
   }
 
@@ -78,7 +62,7 @@ import { testimonials } from '@data/content';
   }
 
   .testimonial__name {
-    font-weight: 700;
+    font-weight: 650;
     color: var(--color-ink);
   }
 
